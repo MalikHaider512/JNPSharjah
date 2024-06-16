@@ -1,0 +1,95 @@
+{
+  "expo": {
+    "name": "JNPSharjah",
+    "slug": "JNPSharjah",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/images/JNP.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/images/JNP.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIStatusBarHidden": true,
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "NSCameraUsageDescription": "JNPSharjah uses the camera to capture and upload user profile image and Listing Image to the server.",
+        "NSPhotoLibraryUsageDescription": "JNPSharjah needs access to the photo library to select and upload user profile image and Listing Image to the server.",
+        "NSPhotoLibraryAddUsageDescription": "JNPSharjah needs access to the photo library to select and upload user profile image and Listing Image to the server.",
+        "NSLocationWhenInUseUsageDescription": "JNPSharjah usages device location on listing information, Listing search Data and User information.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "JNPSharjah usages device location on listing information, Listing search Data and User information.",
+        "NSLocationAlwaysUsageDescription": "JNPSharjah uses device location on listing information, Listing search Data and User information.",
+        "NSMicrophoneUsageDescription": "JNPSharjah uses your microphone while taking video of your product for uploading in listing information."
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC9nSGumZ7_6Xs0pd6HBiU_paZT7mmH5UI"
+        }
+      },
+      "adaptiveIcon": {
+        "foregroundImage": "./src/images/JNP.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.malikhaider.JNPSharjah",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "30.0.2"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "JNPSharjah needs access to the photo library to select and upload user profile image and Listing Image to the server.",
+          "cameraPermission": "JNPSharjah uses the camera to capture and upload user profile image and Listing Image to the server."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "JNPSharjah usages device location on listing information, Listing search Data and User information."
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow JNPSharjah to access your Face ID biometric data."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b6935d85-4f61-4b61-b913-80bf128a2437"
+      }
+    }
+  }
+}
