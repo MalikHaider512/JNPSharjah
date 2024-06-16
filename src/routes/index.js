@@ -6,7 +6,7 @@ import {
   createNavigationContainerRef,
 } from "@react-navigation/native";
 import ScreenNames from "./routes";
-import { HomeScreen, ProfileScreen } from "../screens";
+import { FilterScreen, HomeScreen, ProfileScreen } from "../screens";
 import BottomTabs from "./bottom";
 
 const Stack = createNativeStackNavigator();
@@ -17,7 +17,7 @@ export default function Routes() {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={ScreenNames.TABHOME} component={BottomTabs} />
-        {/* <Stack.Screen name={ScreenNames.PROFILE} component={ProfileScreen} /> */}
+        <Stack.Screen name={ScreenNames.FILTER} component={FilterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
