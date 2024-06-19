@@ -8,3 +8,4 @@ export { default as SingleCheckBox } from "./singleCheckBox";
 export { default as PressableText } from "./pressableText";
 export { default as CustomModal } from "./customModal";
 export { default as ProfileContent } from "./profileContent";
+export { default as InputText } from "./inputText";

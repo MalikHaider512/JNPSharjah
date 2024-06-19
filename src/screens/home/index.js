@@ -29,6 +29,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("Sort By");
   const [sortMenu, setSortMenu] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [ads, setAds] = useState([]);
   const [loadMore, setLoadMore] = useState(false);
   const [adCount, setAdCount] = useState(0);
@@ -246,6 +247,7 @@ export default function Home() {
           ListEmptyComponent={renderEmptyList}
           refreshControl={
             <RefreshControl
+              refreshing={refreshing}
               colors={[AppColors.primary]}
               onRefresh={onRefresh}
             />

@@ -7,22 +7,24 @@ import { Button, Header, ProfileContent } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import Images from "../../images";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setIsLogin, setUserData } from "../../redux/slices/user";
+import { saveCredentials } from "../../utils/Methods";
 
 export default function Profile() {
   const navigation = useNavigation();
-  // const dispatch = useDispatch();
-  // const userData = useSelector(selectUser);
-  const userData = {};
+  const dispatch = useDispatch();
+  const userData = useSelector(selectUser);
 
   const handleMyAds = () => {
     // navigation.navigate(ScreenNames.MYADS);
   };
 
   const handleLogOut = () => {
-    // dispatch(setUserData({}));
-    // dispatch(setIsLogin(false));
-    // saveCredentials("email", "");
-    // saveCredentials("password", "");
+    dispatch(setUserData({}));
+    dispatch(setIsLogin(false));
+    saveCredentials("email", "");
+    saveCredentials("password", "");
     navigation.navigate(ScreenNames.HOME);
   };
 
@@ -40,13 +42,9 @@ export default function Profile() {
             />
           </TouchableOpacity>
           <Text style={styles.nameText}>
-            {/* {userData?.firstname} {userData?.lastname} */}
-            Haider
+            {userData?.firstname} {userData?.lastname}
           </Text>
-          <Text style={styles.emailText}>
-            {/* {userData?.email} */}
-            Ali
-          </Text>
+          <Text style={styles.emailText}>{userData?.email}</Text>
 
           <Button
             title="Edit"
@@ -64,11 +62,11 @@ export default function Profile() {
           />
 
           {/* My Ads */}
-          {/* <ProfileContent
+          <ProfileContent
             iconName="hard-drive"
             text="My Ads"
-            onPress={handleMyAds}
-          /> */}
+            // press={handleMyAds}
+          />
 
           {/* Contact Us */}
           <ProfileContent
@@ -82,7 +80,7 @@ export default function Profile() {
           <ProfileContent
             iconName="log-out"
             text="Log out"
-            onPress={handleLogOut}
+            press={handleLogOut}
             forwardIcon={false}
           />
         </View>

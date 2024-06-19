@@ -16,6 +16,7 @@
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "@reduxjs/toolkit": "^2.2.5",
     "@stripe/stripe-react-native": "^0.37.1",
     "app-upgrade-react-native-sdk": "^1.0.16",
     "date-fns": "^3.6.0",

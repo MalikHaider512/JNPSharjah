@@ -2,15 +2,23 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import { HomeScreen, ProfileScreen, TradeOptionScreen } from "../../screens";
+import {
+  HomeScreen,
+  ProfileScreen,
+  StartScreen,
+  TradeOptionScreen,
+} from "../../screens";
 import AppColors from "../../utils/AppColors";
 import Images from "../../images";
 import styles from "./styles";
 import ScreenNames from "../routes";
+import { useSelector } from "react-redux";
+import { selectIsLogin } from "../../redux/slices/user";
 
 const Tabs = createBottomTabNavigator();
 
 export default function BottomTabs() {
+  const isLogin = useSelector(selectIsLogin);
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -35,7 +43,7 @@ export default function BottomTabs() {
       />
       <Tabs.Screen
         name={ScreenNames.TRADEOPTION}
-        component={TradeOptionScreen}
+        component={isLogin ? TradeOptionScreen : StartScreen}
         options={{
           tabBarIcon: () => (
             <View>
@@ -51,7 +59,7 @@ export default function BottomTabs() {
       />
       <Tabs.Screen
         name={ScreenNames.PROFILE}
-        component={ProfileScreen}
+        component={isLogin ? ProfileScreen : StartScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
