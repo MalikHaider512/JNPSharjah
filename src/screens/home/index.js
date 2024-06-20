@@ -154,7 +154,6 @@ export default function Home() {
 
   const getAllAds = async () => {
     let res = await getAds();
-    console.log("Ads Response", res);
 
     setAds(res);
     setLoading(false);

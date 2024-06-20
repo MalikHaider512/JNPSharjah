@@ -31,7 +31,7 @@ export default function InputText({
           placeholder={placeholder}
           onChangeText={setState}
           onEndEditing={editingEnd}
-          inputMode={keyType}
+          keyboardType={keyType}
           autoCapitalize={email && "none"}
         />
         {password && (

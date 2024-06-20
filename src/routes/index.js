@@ -7,10 +7,13 @@ import {
 } from "@react-navigation/native";
 import ScreenNames from "./routes";
 import {
+  AdPostScreen,
+  CategoriesScreen,
   FilterScreen,
   HomeScreen,
   ProfileScreen,
   SignInScreen,
+  SignUpScreen,
 } from "../screens";
 import BottomTabs from "./bottom";
 
@@ -24,6 +27,12 @@ export default function Routes() {
         <Stack.Screen name={ScreenNames.TABHOME} component={BottomTabs} />
         <Stack.Screen name={ScreenNames.FILTER} component={FilterScreen} />
         <Stack.Screen name={ScreenNames.SIGNIN} component={SignInScreen} />
+        <Stack.Screen name={ScreenNames.SIGNUP} component={SignUpScreen} />
+        <Stack.Screen
+          name={ScreenNames.CATEGORIES}
+          component={CategoriesScreen}
+        />
+        <Stack.Screen name={ScreenNames.ADPOST} component={AdPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

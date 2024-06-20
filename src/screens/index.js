@@ -3,4 +3,7 @@ export { default as ProfileScreen } from "./profile";
 export { default as TradeOptionScreen } from "./tradeOption";
 export { default as FilterScreen } from "./filter";
 export { default as SignInScreen } from "./signIn";
+export { default as SignUpScreen } from "./signUp";
 export { default as StartScreen } from "./start";
+export { default as CategoriesScreen } from "./categories";
+export { default as AdPostScreen } from "./adaPost";
