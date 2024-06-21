@@ -2,7 +2,7 @@ const ScreenNames = {
   ADPOST: "AdPost",
   HOME: "Home",
   PROFILE: "Profile",
-  DESCRIPTION: "Description",
+  DETAILS: "Details",
   SIGNIN: "SignIn",
   SIGNUP: "SignUp",
   START: "Start",

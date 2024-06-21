@@ -12,3 +12,6 @@ export { default as InputText } from "./inputText";
 export { default as MultipleSelectionModal } from "./multipleSelectionModal";
 export { default as UploadImage } from "./uploadImage";
 export { default as DropDownMenu } from "./dropDownMenu";
+export { default as ItemDetails } from "./itemDetails";
+export { default as Timer } from "./timer";
+export { default as Bidding } from "./bidding";

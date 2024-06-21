@@ -9,6 +9,7 @@ import ScreenNames from "./routes";
 import {
   AdPostScreen,
   CategoriesScreen,
+  DetailScreen,
   FilterScreen,
   HomeScreen,
   ProfileScreen,
@@ -33,6 +34,7 @@ export default function Routes() {
           component={CategoriesScreen}
         />
         <Stack.Screen name={ScreenNames.ADPOST} component={AdPostScreen} />
+        <Stack.Screen name={ScreenNames.DETAILS} component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

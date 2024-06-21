@@ -5,8 +5,13 @@ import Images from "../../images";
 import { subString } from "../../utils/Methods";
 import { Feather } from "@expo/vector-icons";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import ScreenNames from "../../routes/routes";
+import Timer from "../timer";
 
 export default function ListView({ item }) {
+  const navigation = useNavigation();
+
   const [extend, setExtend] = useState(false);
 
   const handleExtend = () => {
@@ -14,8 +19,12 @@ export default function ListView({ item }) {
     setExtend(newExtend);
   };
 
+  const handleDetails = () => {
+    navigation.navigate(ScreenNames.DETAILS, { item: item });
+  };
+
   return (
-    <TouchableOpacity style={styles.parentView}>
+    <TouchableOpacity style={styles.parentView} onPress={handleDetails}>
       <View style={styles.listView}>
         {/* Item Image or default image */}
         {item?.images.length > 0 ? (
@@ -41,7 +50,8 @@ export default function ListView({ item }) {
 
           {/* Remaining Time */}
           <View style={styles.counterView}>
-            <Text style={styles.labelText}>Remaining Time:</Text>
+            <Timer date={"2024-11-31"} />
+            {/* <Text style={styles.labelText}>{item.bidDuration?.start}</Text> */}
             {/* <Text style={styles.valueText}>
             {timeLeft.months} M {timeLeft.days} D {timeLeft.hours} H{" "}
             {timeLeft.minutes} Min {timeLeft.seconds}Sec
