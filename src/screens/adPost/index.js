@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ScreenWrapper } from "react-native-screen-wrapper";
-import AppColors from "../../utils/AppColors";
 import styles from "./styles";
+import AppColors from "../../utils/AppColors";
 import {
   Button,
   CustomModal,
@@ -13,7 +13,6 @@ import {
   PressableText,
   UploadImage,
 } from "../../components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   countries,
   graphicMemory,
@@ -26,22 +25,15 @@ import {
   storageSizes,
   storageTypes,
 } from "../../utils/Data";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/slices/user";
-import { postAd } from "../../api/ads";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { parseDate } from "@internationalized/date";
 import Modal from "react-native-modal";
-import {
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { postAd } from "../../api/ads";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 
 export default function AdPost() {
-  const user = useSelector(selectUser);
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -104,27 +96,6 @@ export default function AdPost() {
   const [startingDatePickerModal, setStartingDatePickerModal] = useState(false);
   const [endingatePickerModal, setEndingDatePickerModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
-
-  // Usage example:
-  const handleNoOfBoxesChange = (text) => {
-    handleStateChange(setNoOfBoxes, text, 0);
-  };
-
-  const handleItemPerBoxChange = (text) => {
-    handleStateChange(setItemPerBox, text, 0);
-  };
-
-  const handleWeightPerBoxChange = (text) => {
-    handleStateChange(setWeightPerBox, text, 0);
-  };
-
-  const handleStartingPriceChange = (text) => {
-    handleStateChange(setStartingPrice, text, 0);
-  };
-
-  const handleTargetPriceChange = (text) => {
-    handleStateChange(setTargetPrice, text, 0);
-  };
 
   const openManufacturesModal = () => {
     setManufacturesModal(true);
@@ -256,36 +227,30 @@ export default function AdPost() {
     }
   };
 
-  const fetchImage = async (imageUrl) => {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    return blob;
-  };
-
   const handleSubmit = async () => {
     setLoadingModal(true);
-    console.log("Title", title);
-    console.log("No. of Boxes", noOfBoxes);
-    console.log("Item Per Box", itemPerBox);
-    console.log("Weight Per Box", weightPerBox);
-    console.log("manufacturer", manufactures);
-    console.log("Screen Type", screenType);
-    console.log("Screen Size", screenSize);
-    console.log("Processor", processor);
-    console.log("Processor Generation", processorGeneration);
-    console.log("Graphic Memory", graphicsMemory);
-    console.log("Ram Size", ramSize);
-    console.log("Storage Type", storageType);
-    console.log("Storage Size", storageSize);
-    console.log("Starting Price", startingPrice);
-    console.log("Target Price", targetPrice);
-    console.log("Dilevery From", dileveryFrom);
-    console.log("Dilevery To", dileveryTo);
-    console.log("Description", description);
+    // console.log("Title", title);
+    // console.log("No. of Boxes", noOfBoxes);
+    // console.log("Item Per Box", itemPerBox);
+    // console.log("Weight Per Box", weightPerBox);
+    // console.log("manufacturer", manufactures);
+    // console.log("Screen Type", screenType);
+    // console.log("Screen Size", screenSize);
+    // console.log("Processor", processor);
+    // console.log("Processor Generation", processorGeneration);
+    // console.log("Graphic Memory", graphicsMemory);
+    // console.log("Ram Size", ramSize);
+    // console.log("Storage Type", storageType);
+    // console.log("Storage Size", storageSize);
+    // console.log("Starting Price", startingPrice);
+    // console.log("Target Price", targetPrice);
+    // console.log("Dilevery From", dileveryFrom);
+    // console.log("Dilevery To", dileveryTo);
+    // console.log("Description", description);
 
     const details = {
       condition: "Used",
-      deliveryTo: Array.from(dileveryTo),
+      deliveryTo: dileveryTo,
       graphicsMemory: graphicsMemory,
       itemsPerBox: itemPerBox,
       manufacturer: manufactures,
@@ -300,13 +265,6 @@ export default function AdPost() {
       storageType: storageType,
       wantTo: route.params?.tradeOption,
       weightPerBox: weightPerBox,
-    };
-
-    const options = {
-      year: "numeric", // Output format for year (numeric)
-      month: "2-digit", // Output format for month (01 to 12)
-      day: "2-digit", // Output format for day (01 to 31)
-      separator: "-", // Separator between date parts
     };
 
     var formdata = new FormData();
@@ -328,18 +286,16 @@ export default function AdPost() {
     formdata.append(
       "bidDuration",
       JSON.stringify({
-        start: parseDate(startingDate.toLocaleDateString()),
-        end: parseDate(endingDate.toLocaleDateString()),
+        start: parseDate(startingDate),
+        end: parseDate(endingDate),
       })
     );
-    images.forEach(async (img, index) => {
-      const imageBlob = await fetchImage(img);
-      const imageData = {
-        uri: img, // Optional: Keep the original URI for reference
+    images.forEach((img, index) => {
+      formdata.append("image", {
+        name: `imag${index}`,
         type: "image/jpeg", // Adjust the type if needed
-        blob: imageBlob, // Add the fetched Blob
-      };
-      formdata.append("image", imageData.blob);
+        uri: img,
+      });
     });
 
     console.log("Form Data", formdata);
@@ -347,7 +303,7 @@ export default function AdPost() {
     try {
       let res = await postAd(formdata);
 
-      console.log("Ad REsponse", res);
+      console.log("Ad Response", res);
       setLoadingModal(false);
 
       navigation.navigate(ScreenNames.HOME);
@@ -382,22 +338,22 @@ export default function AdPost() {
     };
     console.log("Date", startingDate.toLocaleDateString());
   };
-
   return (
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
       <View style={styles.parentView}>
+        {/* Header */}
         <Header back={true} title="Post an Ad" />
 
-        <KeyboardAwareScrollView>
-          {/* Upload Image */}
-          {/* <UploadImage list={images} setList={setImages} /> */}
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+          {/* Upload Images */}
+          <UploadImage list={images} setList={setImages} />
 
           {/* Title */}
           <InputText
             label="Title"
             placeholder="Enter Title"
             setState={setTitle}
-            style={styles.inputStyle}
+            inputStyles={styles.inputStyle}
             viewStyle={styles.inputView}
           />
 
@@ -406,8 +362,8 @@ export default function AdPost() {
             label="No.of Boxes"
             placeholder="Enter no. of boxes"
             keyType="numeric"
-            setState={handleNoOfBoxesChange}
-            style={styles.inputStyle}
+            setState={setNoOfBoxes}
+            inputStyles={styles.inputStyle}
             viewStyle={styles.inputView}
           />
 
@@ -416,8 +372,8 @@ export default function AdPost() {
             label="Item/Box"
             placeholder="Enter item per box"
             keyType="numeric"
-            setState={handleItemPerBoxChange}
-            style={styles.inputStyle}
+            setState={setItemPerBox}
+            inputStyles={styles.inputStyle}
             viewStyle={styles.inputView}
           />
 
@@ -426,8 +382,28 @@ export default function AdPost() {
             label="Weight (lb)/Box"
             placeholder="Enter weight per box"
             keyType="numeric"
-            setState={handleWeightPerBoxChange}
-            style={styles.inputStyle}
+            setState={setWeightPerBox}
+            inputStyles={styles.inputStyle}
+            viewStyle={styles.inputView}
+          />
+
+          {/* Starting Price */}
+          <InputText
+            label="Starting Price"
+            placeholder="Enter Starting Price"
+            keyType="numeric"
+            setState={setStartingPrice}
+            inputStyles={styles.inputStyle}
+            viewStyle={styles.inputView}
+          />
+
+          {/* Target  Price */}
+          <InputText
+            label="Target Price"
+            placeholder="Enter Target Price"
+            keyType="numeric"
+            setState={setTargetPrice}
+            inputStyles={styles.inputStyle}
             viewStyle={styles.inputView}
           />
 
@@ -494,40 +470,6 @@ export default function AdPost() {
             press={openStorageSizeModal}
           />
 
-          {/* Starting Date */}
-          <PressableText
-            title="Starting Date "
-            value={startingDate ? startingDate.toLocaleDateString() : "Choose"}
-            press={openStartingDatePickerModal}
-          />
-
-          {/* Ending  Date */}
-          <PressableText
-            title="Ending Date "
-            value={endingDate ? endingDate.toLocaleDateString() : "Choose"}
-            press={openEndingDatePickerModal}
-          />
-
-          {/* Starting Price */}
-          <InputText
-            label="Starting Price"
-            placeholder="Enter Starting Price"
-            keyType="numeric"
-            setState={handleStartingPriceChange}
-            style={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
-
-          {/* Target  Price */}
-          <InputText
-            label="Target Price"
-            placeholder="Enter Target Price"
-            keyType="numeric"
-            setState={handleTargetPriceChange}
-            style={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
-
           {/* Dilevery From */}
           <PressableText
             title="From"
@@ -544,18 +486,32 @@ export default function AdPost() {
             press={openDileveryToModal}
           />
 
+          {/* Starting Date */}
+          <PressableText
+            title="Starting Date "
+            value={startingDate ? startingDate.toLocaleDateString() : "Choose"}
+            press={openStartingDatePickerModal}
+          />
+
+          {/* Ending  Date */}
+          <PressableText
+            title="Ending Date "
+            value={endingDate ? endingDate.toLocaleDateString() : "Choose"}
+            press={openEndingDatePickerModal}
+          />
+
           {/* Description */}
           <InputText
             label="Decsription"
             placeholder="Enter Decsription"
             setState={setDescription}
             multiline={true}
-            style={styles.descriptionInput}
+            inputStyles={styles.descriptionInput}
             viewStyle={styles.inputView}
           />
 
+          {/* Submit Button */}
           <Button title="Submit" press={handleSubmit} />
-          <Button title="Date" press={checkDate} />
         </KeyboardAwareScrollView>
       </View>
 

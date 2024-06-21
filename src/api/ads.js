@@ -11,6 +11,7 @@ export async function getAds() {
 }
 
 export async function postAd(data) {
+  console.log("Ad Post Api Calling", data);
   try {
     let response = await fetch(mainUrl + "item/add", {
       method: "POST",
@@ -22,6 +23,7 @@ export async function postAd(data) {
     });
 
     let json = await response.json();
+    console.log("Response", json);
     return json;
   } catch (error) {
     console.log("Error in Ad Post", error);

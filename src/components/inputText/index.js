@@ -14,9 +14,11 @@ export default function InputText({
   password = false,
   editingEnd,
   viewStyle,
+  inputStyles,
   passwordViewStyle,
   passwordInputStyle,
   email,
+  multiline = false,
 }) {
   const [secure, setSecure] = useState(password);
   return (
@@ -24,7 +26,10 @@ export default function InputText({
       {label && <Text style={styles.textStyle}>{label}</Text>}
       <View style={[styles.iconInputView, viewStyle]}>
         <TextInput
-          style={[password ? styles.iconInputStyle : styles.inputStyle]}
+          style={[
+            password ? styles.iconInputStyle : styles.inputStyle,
+            inputStyles,
+          ]}
           value={value}
           secureTextEntry={secure}
           editable={edit}
@@ -33,6 +38,7 @@ export default function InputText({
           onEndEditing={editingEnd}
           keyboardType={keyType}
           autoCapitalize={email && "none"}
+          multiline={multiline}
         />
         {password && (
           <TouchableOpacity

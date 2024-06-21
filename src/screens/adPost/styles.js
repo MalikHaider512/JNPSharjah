@@ -6,12 +6,6 @@ const styles = StyleSheet.create({
   parentView: {
     flex: 1,
   },
-  postText: {
-    fontSize: 30,
-    textAlign: "center",
-    fontWeight: "bold",
-    marginTop: height(2),
-  },
   inputView: {
     width: width(90),
     borderRadius: 10,
@@ -31,8 +25,9 @@ const styles = StyleSheet.create({
     padding: width(1),
     width: width(85),
   },
+
   modalStyle: {
-    height: height(60),
+    height: height(70),
   },
 });
 export default styles;

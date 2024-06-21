@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
 import React, { useState } from "react";
 import { ScreenWrapper } from "react-native-screen-wrapper";
 import AppColors from "../../utils/AppColors";
@@ -12,12 +12,15 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
+import { height, width } from "../../utils/Dimensions";
 
 export default function Categories() {
   const navigation = useNavigation();
   const route = useRoute();
 
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchString, setSearchString] = useState(categories[0]);
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
@@ -39,46 +42,67 @@ export default function Categories() {
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
       <View style={styles.parentView}>
         <Header back={true} defined={true} title="Ad Post" />
-        <View style={styles.splitView}>
-          <View style={styles.categoryListView}>
-            {/* <Text style={styles.title}>Categories</Text> */}
-            <FlatList
-              data={categories}
-              keyExtractor={(index) => index}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => {
-                return (
+        <View style={styles.categoryFlatListView}>
+          <FlatList
+            data={categories}
+            showsVerticalScrollIndicator={false}
+            // scrollEnabled={false}
+            renderItem={({ item }) => {
+              return (
+                <View>
                   <TouchableOpacity
+                    // style={{
+                    //   paddingVertical: height(0.7),
+                    //   width: width(33),
+                    //   marginVertical: height(0.3),
+                    // }}
+
                     style={{
-                      ...styles.item,
+                      ...styles.categoryView,
                       backgroundColor:
-                        selectedCategory === item
-                          ? AppColors.primary
-                          : AppColors.alto,
+                        item == selectedCategory ? "#E5E8E8" : "white",
+                      padding:
+                        item == selectedCategory ? height(1) : height(0.3),
                     }}
                     onPress={() => handleCategoryPress(item)}
                   >
-                    <Text style={styles.itemText}>{item}</Text>
+                    <Text style={styles.categoryText}>{item}</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+            numColumns={1}
+            keyExtractor={(item, index) => index}
+            // onRefresh={onRefresh}
+            refreshing={refreshing}
+          />
+          <View style={styles.subCategoryFlatListView}>
+            <FlatList
+              data={subcategories[selectedCategory] || []}
+              showsVerticalScrollIndicator={false}
+              style={{ borderRadius: 5 }}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    style={styles.subCategoryView}
+                    onPress={() => {
+                      handleSubCategoryPress(item);
+                    }}
+                  >
+                    <Text style={styles.subCategoryText}>{item}</Text>
                   </TouchableOpacity>
                 );
               }}
-            />
-          </View>
-
-          <View style={styles.subCategoryListView}>
-            {/* <Text style={styles.title}>Subcategories</Text> */}
-            <FlatList
-              data={subcategories[selectedCategory]}
-              keyExtractor={(index) => index}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.item}
-                  onPress={() => {
-                    handleSubCategoryPress(item);
+              keyExtractor={(item, index) => index}
+              ItemSeparatorComponent={() => (
+                <View
+                  style={{
+                    backgroundColor: AppColors.greybackground,
+                    height: 1,
+                    width: width(70),
                   }}
-                >
-                  <Text style={styles.itemText}>{item}</Text>
-                </TouchableOpacity>
+                />
               )}
             />
           </View>
