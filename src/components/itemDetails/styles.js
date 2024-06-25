@@ -18,5 +18,11 @@ const styles = StyleSheet.create({
     maxWidth: width(44),
     fontSize: 16,
   },
+  countryView: {
+    width: width(43),
+    maxWidth: width(44),
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 });
 export default styles;

@@ -7,7 +7,7 @@ import { BackIcon, Button, Header, InputText } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import * as DocumentPicker from "expo-document-picker";
-import { removeEmptyProperties } from "../../utils/Methods";
+import { infoMessage, removeEmptyProperties } from "../../utils/Methods";
 import { registerUser } from "../../api/user";
 import Images from "../../images";
 
@@ -46,12 +46,22 @@ export default function SignUp() {
 
   const [isAddress, setIsAddress] = useState(false);
   const [address, setAddress] = useState("");
+  const [addressGiven, setAddressGiven] = useState(true);
   const [city, setCity] = useState("");
+  const [cityGiven, setCityGiven] = useState(true);
+
   const [poBox, setPOBox] = useState("");
+  const [poBoxGiven, setPOBoxGiven] = useState(true);
+
   const [province, setProvince] = useState("");
+  const [provinceGiven, setProvinceGiven] = useState(true);
+
   const [country, setCountry] = useState("");
+  const [countryGiven, setCountryGiven] = useState(true);
+
   const [pdfUri, setPdfUri] = useState("");
   const [pdfName, setPdfName] = useState("");
+  const [pdfGiven, setPdfGiven] = useState(true);
 
   const [isDocument, setIsDocument] = useState(false);
 
@@ -76,6 +86,15 @@ export default function SignUp() {
       setPasswordGiven(false);
     } else {
       setPasswordGiven(true);
+    }
+  };
+
+  const checkEmptyState = (state, setState) => {
+    console.log("Checking State");
+    if (state === "") {
+      setState(false);
+    } else {
+      setState(true);
     }
   };
 
@@ -163,11 +182,12 @@ export default function SignUp() {
   const handleContinueNext = () => {
     console.log("Register As", registerAs);
     console.log("Describe Best", describeBest);
-    if (registerAs && describeBest) {
+    if (registerAs && describeBest.length > 0) {
       setCredentials(false);
       setContinueAs(false);
       setContact(true);
     } else {
+      // infoMessage("Fields Missing", "Fields are Required");
       setContinueAsGiven(registerAs == "" ? false : true);
       setDescribeBestGiven(describeBest.length === 0 ? false : true);
     }
@@ -175,19 +195,62 @@ export default function SignUp() {
 
   const handleContactNext = () => {
     console.log("Contact Next");
-    setCredentials(false);
-    setContinueAs(false);
-    setContact(false);
-    setIsAddress(true);
+    if (mobile && whatsApp && landLine && website) {
+      setCredentials(false);
+      setContinueAs(false);
+      setContact(false);
+      setIsAddress(true);
+    } else {
+      // infoMessage("Fields Missing", "Fields are Required");
+
+      if (!mobile) {
+        setMobileGiven(false);
+      }
+
+      if (!whatsApp) {
+        setWhatsAppGiven(false);
+      }
+
+      if (!landLine) {
+        setLandLineGiven(false);
+      }
+
+      if (!website) {
+        setWebSiteGiven(false);
+      }
+    }
   };
 
   const handleAddressNext = () => {
     console.log("Address Next");
-    setCredentials(false);
-    setContinueAs(false);
-    setContact(false);
-    setIsAddress(false);
-    setIsDocument(true);
+
+    if (address && city && poBox && province && country) {
+      setCredentials(false);
+      setContinueAs(false);
+      setContact(false);
+      setIsAddress(false);
+      setIsDocument(true);
+    } else {
+      if (!address) {
+        setAddressGiven(false);
+      }
+
+      if (!city) {
+        setCityGiven(false);
+      }
+
+      if (!poBox) {
+        setPOBoxGiven(false);
+      }
+
+      if (!province) {
+        setProvinceGiven(false);
+      }
+
+      if (!country) {
+        setCountryGiven(false);
+      }
+    }
   };
 
   const handleSignIn = () => {
@@ -242,9 +305,11 @@ export default function SignUp() {
     console.log("Form Data", formData);
 
     if (pdfUri) {
+      console.log("Api Calling", formData);
       let registerResponse = await registerUser(formData);
       console.log("Register Response", registerResponse);
     } else {
+      setPdfGiven(false);
       console.log("Missing");
     }
   };
@@ -409,25 +474,60 @@ export default function SignUp() {
               label="Mobile"
               placeholder="+XX XXX XXXXXX"
               setState={setMobile}
+              keyType="numeric"
+              editingEnd={() => {
+                checkEmptyState(mobile, setMobileGiven);
+              }}
             />
+
+            {/*Mobie Number Error Message */}
+            {!mobile && !mobileGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <InputText
               label="WhatsApp"
               placeholder="+XX XXX XXXXXX"
               setState={setWhatsApp}
+              keyType="numeric"
+              editingEnd={() => {
+                checkEmptyState(whatsApp, setWhatsAppGiven);
+              }}
             />
+
+            {/* Whatsapp Number Error Message */}
+            {!whatsApp && !whatsAppGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <InputText
               label="LandLine"
               placeholder="+XX XXX XXXXXX"
               setState={setLandLine}
+              keyType="numeric"
+              editingEnd={() => {
+                checkEmptyState(landLine, setLandLineGiven);
+              }}
             />
+
+            {/* Whatsapp Number Error Message */}
+            {!landLine && !landLineGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <InputText
               label="WebSite"
               placeholder="JohnDoe.com"
               setState={setWebsite}
+              editingEnd={() => {
+                checkEmptyState(website, setWebSiteGiven);
+              }}
             />
+
+            {/* Whatsapp Number Error Message */}
+            {!website && !websiteGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <Button title="Next" press={handleContactNext} />
           </View>
@@ -441,23 +541,71 @@ export default function SignUp() {
               label="Address"
               placeholder="JNP Computer Market"
               setState={setAddress}
+              editingEnd={() => {
+                checkEmptyState(address, setAddressGiven);
+              }}
             />
 
-            <InputText label="City" placeholder="Sharjah" setState={setCity} />
+            {/* Address Error Message */}
+            {!address && !addressGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
-            <InputText label="PO Box" placeholder="12345" setState={setPOBox} />
+            <InputText
+              label="City"
+              placeholder="Sharjah"
+              setState={setCity}
+              editingEnd={() => {
+                checkEmptyState(city, setCityGiven);
+              }}
+            />
+
+            {/* City Error Message */}
+            {!city && !cityGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
+
+            <InputText
+              label="PO Box"
+              placeholder="12345"
+              setState={setPOBox}
+              editingEnd={() => {
+                checkEmptyState(poBox, setPOBoxGiven);
+              }}
+            />
+
+            {/* PO Box Error Message */}
+            {!poBox && !poBoxGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <InputText
               label="Province"
               placeholder="Sharjah"
               setState={setProvince}
+              editingEnd={() => {
+                checkEmptyState(province, setProvinceGiven);
+              }}
             />
+
+            {/* Province Error Message */}
+            {!province && !provinceGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <InputText
               label="Country"
               placeholder="United Arab Emirates"
-              setState={setProvince}
+              setState={setCountry}
+              editingEnd={() => {
+                checkEmptyState(country, setCountryGiven);
+              }}
             />
+
+            {/* Country Error Message */}
+            {!country && !countryGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <Button title="Next" press={handleAddressNext} />
           </View>
@@ -475,6 +623,11 @@ export default function SignUp() {
                 {pdfName ? pdfName : "No file choosen"}
               </Text>
             </View>
+
+            {/* PDF Error Message */}
+            {!pdfUri && !pdfGiven && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             <Text style={styles.noteText}>
               Please add a PDF file containing the documents (i.e scanned

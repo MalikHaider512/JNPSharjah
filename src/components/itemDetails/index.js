@@ -139,7 +139,16 @@ export default function ItemDetails({ category, subCategory, details }) {
       {details && details?.deliveryTo && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Delivery To</Text>
-          <Text style={styles.gridText}>{details?.deliveryTo}</Text>
+          {/* <Text style={styles.gridText}>{details?.deliveryTo}</Text> */}
+          <View style={styles.countryView}>
+            {details?.deliveryTo.map((item) => {
+              return (
+                <Text>
+                  {item} {""}
+                </Text>
+              );
+            })}
+          </View>
         </View>
       )}
     </View>
