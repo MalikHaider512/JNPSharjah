@@ -4,7 +4,7 @@
     "slug": "JNPSharjah",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/images/JNPLogo.png",
+    "icon": "./src/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/images/JNPLogo.png",
