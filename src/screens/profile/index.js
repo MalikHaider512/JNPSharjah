@@ -17,7 +17,11 @@ export default function Profile() {
   const userData = useSelector(selectUser);
 
   const handleMyAds = () => {
-    // navigation.navigate(ScreenNames.MYADS);
+    navigation.navigate(ScreenNames.MYADS);
+  };
+
+  const handleMyBiddings = () => {
+    navigation.navigate(ScreenNames.MYBIDDINGS);
   };
 
   const handleLogOut = () => {
@@ -65,7 +69,14 @@ export default function Profile() {
           <ProfileContent
             iconName="hard-drive"
             text="My Ads"
-            // press={handleMyAds}
+            press={handleMyAds}
+          />
+
+          {/* My Biddings */}
+          <ProfileContent
+            iconName="hard-drive"
+            text="My Biddings"
+            press={handleMyBiddings}
           />
 
           {/* Contact Us */}

@@ -10,6 +10,16 @@ export async function getAds() {
   }
 }
 
+export async function getMyAds() {
+  try {
+    let response = await fetch(mainUrl + "item/getAll");
+    let json = await response.json();
+    return json;
+  } catch (error) {
+    console.log("Error in Getting Ads", error);
+  }
+}
+
 export async function postAd(data) {
   console.log("Ad Post Api Calling", data);
   try {

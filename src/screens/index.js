@@ -8,3 +8,5 @@ export { default as StartScreen } from "./start";
 export { default as CategoriesScreen } from "./categories";
 export { default as AdPostScreen } from "./adPost";
 export { default as DetailScreen } from "./details";
+export { default as MyAdsScreen } from "./myAds";
+export { default as MyBiddingsScreen } from "./myBiddings";

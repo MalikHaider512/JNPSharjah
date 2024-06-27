@@ -109,26 +109,6 @@ export default function SignIn() {
     }
   };
 
-  const getCredentials = async () => {
-    const storedEmail = await getCredentialValueFor("Email");
-    const storedPassword = await getCredentialValueFor("Password");
-
-    if (storedEmail && storedPassword) {
-      setRememberMe(true);
-    }
-
-    console.log("Email", storedEmail);
-    console.log("Password", storedPassword);
-    console.log("Remember Me", rememberMe);
-
-    setEmail(storedEmail ? storedEmail : "");
-    setPassword(storedPassword ? storedPassword : "");
-  };
-
-  useEffect(() => {
-    getCredentials();
-  }, []);
-
   // const handleClear = async () => {
   //   let emailRes = await clearData("email");
   //   let passRes = await clearData("password");

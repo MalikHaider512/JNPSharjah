@@ -4,16 +4,14 @@
     "slug": "JNPSharjah",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/images/JNP.png",
+    "icon": "./src/images/JNPLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/images/JNP.png",
+      "image": "./src/images/JNPLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {

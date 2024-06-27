@@ -11,6 +11,7 @@ const ScreenNames = {
   CATEGORIES: "Categories",
   TRADEOPTION: "TradeOption",
   MYADS: "MyAds",
+  MYBIDDINGS: "MyBiddings",
 };
 
 export default ScreenNames;
