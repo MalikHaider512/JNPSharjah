@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     width: width(33),
-    height: height(17),
-    alignItems: "center",
+    height: height(20),
+    // alignItems: "center",
     borderWidth: 1,
     borderRadius: 10,
     borderColor: AppColors.primary,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   listView: {
     width: width(95),
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
   },
 
   contentView: {

@@ -32,10 +32,14 @@ import Modal from "react-native-modal";
 import { postAd } from "../../api/ads";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/user";
 
 export default function AdPost() {
   const navigation = useNavigation();
   const route = useRoute();
+
+  const user = useSelector(selectUser);
 
   const [images, setImages] = useState([]);
 
@@ -227,26 +231,36 @@ export default function AdPost() {
     }
   };
 
+  // console.log("Title", title);
+  // console.log("No. of Boxes", noOfBoxes);
+  // console.log("Item Per Box", itemPerBox);
+  // console.log("Weight Per Box", weightPerBox);
+  // console.log("manufacturer", manufactures);
+  // console.log("Screen Type", screenType);
+  // console.log("Screen Size", screenSize);
+  // console.log("Processor", processor);
+  // console.log("Processor Generation", processorGeneration);
+  // console.log("Graphic Memory", graphicsMemory);
+  // console.log("Ram Size", ramSize);
+  // console.log("Storage Type", storageType);
+  // console.log("Storage Size", storageSize);
+  // console.log("Starting Price", startingPrice);
+  // console.log("Target Price", targetPrice);
+  // console.log("Dilevery From", dileveryFrom);
+  // console.log("Dilevery To", dileveryTo);
+  // console.log("Description", description);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0]; // returns "YYYY-MM-DD"
+  }
+
   const handleSubmit = async () => {
-    setLoadingModal(true);
-    // console.log("Title", title);
-    // console.log("No. of Boxes", noOfBoxes);
-    // console.log("Item Per Box", itemPerBox);
-    // console.log("Weight Per Box", weightPerBox);
-    // console.log("manufacturer", manufactures);
-    // console.log("Screen Type", screenType);
-    // console.log("Screen Size", screenSize);
-    // console.log("Processor", processor);
-    // console.log("Processor Generation", processorGeneration);
-    // console.log("Graphic Memory", graphicsMemory);
-    // console.log("Ram Size", ramSize);
-    // console.log("Storage Type", storageType);
-    // console.log("Storage Size", storageSize);
-    // console.log("Starting Price", startingPrice);
-    // console.log("Target Price", targetPrice);
-    // console.log("Dilevery From", dileveryFrom);
-    // console.log("Dilevery To", dileveryTo);
-    // console.log("Description", description);
+    // setLoadingModal(true);
+
+    console.log("Handle Submit");
+    console.log("Starting Date", parseDate(formatDate(startingDate)));
+    console.log("Ending Date", parseDate(formatDate(endingDate)));
 
     const details = {
       condition: "Used",
@@ -267,6 +281,16 @@ export default function AdPost() {
       weightPerBox: weightPerBox,
     };
 
+    console.log(
+      "Details....",
+      details,
+      route.params?.category,
+      route.params?.subCategory,
+      description,
+      title,
+      user?._id
+    );
+
     var formdata = new FormData();
     formdata.append("addedBy", user?._id);
     formdata.append("title", title.trim());
@@ -279,15 +303,15 @@ export default function AdPost() {
       route.params?.subCategory ? route.params?.subCategory : ""
     );
     formdata.append("description", description ? description : "");
-    formdata.append("startingPrice", startingPrice.toString());
-    formdata.append("targetPrice", targetPrice.toString());
+    formdata.append("startingPrice", startingPrice);
+    formdata.append("targetPrice", targetPrice);
     formdata.append("details", JSON.stringify(details));
 
     formdata.append(
       "bidDuration",
       JSON.stringify({
-        start: parseDate(startingDate),
-        end: parseDate(endingDate),
+        start: parseDate(formatDate(startingDate)),
+        end: parseDate(formatDate(endingDate)),
       })
     );
     images.forEach((img, index) => {

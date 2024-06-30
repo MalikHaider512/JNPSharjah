@@ -282,11 +282,13 @@ export default function SignUp() {
 
     var formData = new FormData();
 
+    // formData.append("firstname", fullName);
+    // formData.append("lastname", fullName);
     formData.append("fullname", fullName);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("company", registerAs === "Company" ? "true" : "false");
-    formData.append("category", describeBest.toString());
+    formData.append("category", describeBest);
     formData.append("phoneNo", mobile);
     formData.append("waNo", whatsApp);
     formData.append("landline", landLine);

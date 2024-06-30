@@ -80,7 +80,7 @@ export default function ItemDetails({ category, subCategory, details }) {
       )}
 
       {/* Processor */}
-      {details && details?.numberOfBoxes && (
+      {details && details?.processor && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Processor</Text>
           <Text style={styles.gridText}>{details?.processor}</Text>
