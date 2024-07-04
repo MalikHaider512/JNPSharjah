@@ -16,6 +16,8 @@ export default function Profile() {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
 
+  console.log("User Data", userData);
+
   const handleMyAds = () => {
     navigation.navigate(ScreenNames.MYADS);
   };

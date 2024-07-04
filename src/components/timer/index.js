@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./styles";
 
-export default function Timer({ date }) {
+export default function Timer({ date, viewStyle }) {
   const [timeLeft, setTimeLeft] = useState({
     months: 0,
     days: 0,
@@ -52,7 +52,7 @@ export default function Timer({ date }) {
   }, []);
 
   return (
-    <View style={styles.counterView}>
+    <View style={{ ...styles.counterView, ...viewStyle }}>
       <Text style={styles.labelText}>Remaining Time:</Text>
       <Text style={styles.valueText}>
         {timeLeft.months} M {timeLeft.days} D {timeLeft.hours} H{" "}

@@ -42,39 +42,39 @@ export default function Bidding({ item }) {
     console.log("User Id", user?._id);
     console.log("Item Id", item?._id);
 
-    if (bidType === "Solo Bid") {
-      let res = await postSoloBid(item?._id, user?._id, bid);
-      console.log("Solo Bid Post Response", res);
+    // if (bidType === "Solo Bid") {
+    //   let res = await postSoloBid(item?._id, user?._id, bid);
+    //   console.log("Solo Bid Post Response", res);
 
-      if (res?.message === "Bid placed successfully") {
-        const matchingRecord = res.bids.filter(
-          (bid) => bid.user_id === user?._id
-        );
+    //   if (res?.message === "Bid placed successfully") {
+    //     const matchingRecord = res.bids.filter(
+    //       (bid) => bid.user_id === user?._id
+    //     );
 
-        const bidAmounts = res.bids.map((bid) => bid.amount);
-        const highestBidAmount = Math.max(...bidAmounts);
-        console.log("Random", Math.random());
+    //     const bidAmounts = res.bids.map((bid) => bid.amount);
+    //     const highestBidAmount = Math.max(...bidAmounts);
+    //     console.log("Random", Math.random());
 
-        if (highestBidAmount > 0) {
-          dispatch(setHighestBid(100));
-        } else {
-          dispatch(setHighestBid(0));
-        }
+    //     if (highestBidAmount > 0) {
+    //       dispatch(setHighestBid(100));
+    //     } else {
+    //       dispatch(setHighestBid(0));
+    //     }
 
-        dispatch(setTotalBids(100));
-        dispatch(setMyBid(100));
+    dispatch(setTotalBids(1000));
+    dispatch(setMyBid(1000));
 
-        dispatch(addBid(1));
-        setBid(0);
-      }
-    } else {
-      let res = await contributeGroupBid(
-        "66656fb41af14b3d87c2cf03",
-        user?._id,
-        bid
-      );
-      console.log("Group Bid");
-    }
+    dispatch(addBid(1));
+    setBid(0);
+    //   }
+    // } else {
+    //   let res = await contributeGroupBid(
+    //     "66656fb41af14b3d87c2cf03",
+    //     user?._id,
+    //     bid
+    //   );
+    //   console.log("Group Bid");
+    // }
   };
 
   const createGroup = async () => {

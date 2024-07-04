@@ -98,7 +98,27 @@ const styles = StyleSheet.create({
     width: width(98),
     height: height(80),
     alignSelf: "center",
-    backgroundColor: "red",
+    // backgroundColor: "red",
+  },
+  gridView: {
+    marginBottom: height(1),
+    justifyContent: "center",
+    flexDirection: "row",
+    // backgroundColor: "red",
+  },
+  gridAttributeText: {
+    width: width(41),
+    maxWidth: width(42),
+    fontSize: 16,
+    fontWeight: "500",
+    // color: AppColors.gray,
+    // backgroundColor: "blue",
+  },
+  gridText: {
+    width: width(43),
+    maxWidth: width(44),
+    fontSize: 16,
+    // backgroundColor: "green",
   },
 });
 export default styles;

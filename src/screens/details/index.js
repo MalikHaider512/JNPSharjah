@@ -7,7 +7,7 @@ import {
   Platform,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScreenWrapper } from "react-native-screen-wrapper";
 import AppColors from "../../utils/AppColors";
 import styles from "./styles";
@@ -25,6 +25,12 @@ import {
   selectTotalBids,
 } from "../../redux/slices/bidding";
 import { subString } from "../../utils/Methods";
+import {
+  CalendarDate,
+  DateFormatter,
+  parseDate,
+  toCalendarDate,
+} from "@internationalized/date";
 
 export default function Details() {
   const route = useRoute();
@@ -38,7 +44,7 @@ export default function Details() {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [seeMore, setSeeMore] = useState(false);
 
-  console.log("Item", route.params?.item);
+  console.log("Item", route.params.item?.bidDuration);
 
   const openImageModal = (index) => {
     setPreviewIndex(index ? index : 0);
@@ -53,6 +59,34 @@ export default function Details() {
     setSeeMore(!seeMore);
   };
 
+  const formatDates = () => {
+    const bidDuration = route.params.item?.bidDuration;
+
+    // Parse the JSON string
+    const bidDurationObj = JSON.parse(bidDuration);
+
+    // Extract start and end dates
+    const startDateInfo = bidDurationObj.start;
+    const endDateInfo = bidDurationObj.end;
+
+    const startDate = new Date(
+      startDateInfo.year,
+      startDateInfo.month - 1,
+      startDateInfo.day
+    );
+    const endDate = new Date(
+      endDateInfo.year,
+      endDateInfo.month - 1,
+      endDateInfo.day
+    );
+
+    console.log("Formatted Start Date", startDate);
+    console.log("Formatted End Date", endDate);
+  };
+
+  useEffect(() => {
+    formatDates();
+  }, []);
   return (
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
       <View style={styles.parentView}>
