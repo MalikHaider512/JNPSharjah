@@ -62,12 +62,21 @@ export default function Details() {
   const formatDates = () => {
     const bidDuration = route.params.item?.bidDuration;
 
+    console.log("Original bidDuration JSON string:", bidDuration);
+
     // Parse the JSON string
     const bidDurationObj = JSON.parse(bidDuration);
+
+    // Log the parsed object
+    console.log("Parsed bidDuration object:", bidDurationObj);
 
     // Extract start and end dates
     const startDateInfo = bidDurationObj.start;
     const endDateInfo = bidDurationObj.end;
+
+    // Log start and end date info
+    console.log("Start Date Info:", startDateInfo);
+    console.log("End Date Info:", endDateInfo);
 
     const startDate = new Date(
       startDateInfo.year,
@@ -80,8 +89,21 @@ export default function Details() {
       endDateInfo.day
     );
 
-    console.log("Formatted Start Date", startDate);
-    console.log("Formatted End Date", endDate);
+    // Log the formatted dates
+    console.log("Formatted Start Date:", startDate.toUTCString());
+    console.log("Formatted End Date:", endDate.toUTCString());
+
+    // Adjust for potential time zone issues
+    const correctedStartDate = new Date(
+      startDate.getTime() + startDate.getTimezoneOffset() * 60000
+    );
+    const correctedEndDate = new Date(
+      endDate.getTime() + endDate.getTimezoneOffset() * 60000
+    );
+
+    // Log the formatted dates
+    console.log("Formatted Start Date:", correctedStartDate);
+    console.log("Formatted End Date:", correctedEndDate);
   };
 
   useEffect(() => {
