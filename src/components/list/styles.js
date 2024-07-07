@@ -41,10 +41,17 @@ const styles = StyleSheet.create({
     width: width(55),
     marginStart: 10,
   },
+  textIconView: {
+    width: width(55),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   titleText: {
     fontSize: 16,
-    fontWeight: "700",
-    marginTop: 3,
+    width: width(41),
+    maxWidth: width(45),
   },
   counterView: {
     flexDirection: "row",

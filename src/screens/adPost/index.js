@@ -42,7 +42,7 @@ export default function AdPost() {
   const user = useSelector(selectUser);
 
   const [images, setImages] = useState([]);
-
+  const [loading, setLoading] = useState([]);
   const [title, setTitle] = useState("");
   const [noOfBoxes, setNoOfBoxes] = useState(0);
   const [itemPerBox, setItemPerBox] = useState(0);
@@ -336,6 +336,35 @@ export default function AdPost() {
     }
   };
 
+  const setAttributesValue = () => {
+    console.log("Setting Attributes");
+    setLoading(true);
+    const data = route.params?.data;
+    console.log("Data:", data?.details);
+    setTitle(data?.title);
+    setNoOfBoxes(data.details?.numberOfBoxes);
+    setItemPerBox(data.details?.itemsPerBox);
+    setWeightPerBox(data.details?.weightPerBox);
+    setStartingPrice(data.details?.startingPrice);
+    setTargetPrice(data.details?.targetPrice);
+    setManufactures(data.details?.manufacturer);
+    setScreenType(data.details?.screenType);
+    setScreenSize(data.details?.screenSize);
+    setProcessor(data.details?.processor);
+    setProcessorGeneration(data.details?.processorGeneration);
+    setGraphicsMemory(data.details?.graphicsMemory);
+    setRamSize(data.details?.ramSize);
+    setStorageType(data.details?.storageType);
+    setStorageSize(data.details?.storageSize);
+    setDileveryFrom(data.details?.sellerFrom);
+    setDileveryTo(data.details?.deliveryTo);
+    // setStartingDate();
+    // setEndingDate();
+    setDescription(data?.description);
+    setImages(data?.images);
+    setLoading(false);
+  };
+
   const getData = async () => {
     setManufacturesList(manufacturers);
     setCountryList(countries);
@@ -353,6 +382,12 @@ export default function AdPost() {
     getData();
   });
 
+  useEffect(() => {
+    if (route.params?.edit) {
+      setAttributesValue();
+    }
+  }, []);
+
   const checkDate = () => {
     const options = {
       year: "numeric", // Output format for year (numeric)
@@ -364,180 +399,192 @@ export default function AdPost() {
   };
   return (
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
-      <View style={styles.parentView}>
-        {/* Header */}
-        <Header back={true} title="Post an Ad" />
+      {loading ? (
+        <Loading />
+      ) : (
+        <View style={styles.parentView}>
+          {/* Header */}
+          <Header back={true} title="Post an Ad" />
 
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-          {/* Upload Images */}
-          <UploadImage list={images} setList={setImages} />
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            {/* Upload Images */}
+            <UploadImage list={images} setList={setImages} />
 
-          {/* Title */}
-          <InputText
-            label="Title"
-            placeholder="Enter Title"
-            setState={setTitle}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* Title */}
+            <InputText
+              label="Title"
+              placeholder="Enter Title"
+              value={title}
+              setState={setTitle}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* No Of Boxes */}
-          <InputText
-            label="No.of Boxes"
-            placeholder="Enter no. of boxes"
-            keyType="numeric"
-            setState={setNoOfBoxes}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* No Of Boxes */}
+            <InputText
+              label="No.of Boxes"
+              placeholder="Enter no. of boxes"
+              value={noOfBoxes}
+              keyType="number-pad"
+              setState={setNoOfBoxes}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Item Per Boxes */}
-          <InputText
-            label="Item/Box"
-            placeholder="Enter item per box"
-            keyType="numeric"
-            setState={setItemPerBox}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* Item Per Boxes */}
+            <InputText
+              label="Item/Box"
+              placeholder="Enter item per box"
+              value={itemPerBox}
+              keyType="number-pad"
+              setState={setItemPerBox}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Weight Per Box */}
-          <InputText
-            label="Weight (lb)/Box"
-            placeholder="Enter weight per box"
-            keyType="numeric"
-            setState={setWeightPerBox}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* Weight Per Box */}
+            <InputText
+              label="Weight (lb)/Box"
+              placeholder="Enter weight per box"
+              value={weightPerBox}
+              keyType="number-pad"
+              setState={setWeightPerBox}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Starting Price */}
-          <InputText
-            label="Starting Price"
-            placeholder="Enter Starting Price"
-            keyType="numeric"
-            setState={setStartingPrice}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* Starting Price */}
+            <InputText
+              label="Starting Price"
+              placeholder="Enter Starting Price"
+              value={startingPrice}
+              keyType="number-pad"
+              setState={setStartingPrice}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Target  Price */}
-          <InputText
-            label="Target Price"
-            placeholder="Enter Target Price"
-            keyType="numeric"
-            setState={setTargetPrice}
-            inputStyles={styles.inputStyle}
-            viewStyle={styles.inputView}
-          />
+            {/* Target  Price */}
+            <InputText
+              label="Target Price"
+              placeholder="Enter Target Price"
+              value={targetPrice}
+              keyType="number-pad"
+              setState={setTargetPrice}
+              inputStyles={styles.inputStyle}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Manufactures */}
-          <PressableText
-            title="Manufactures"
-            value={manufactures ? manufactures : "Choose"}
-            press={openManufacturesModal}
-          />
+            {/* Manufactures */}
+            <PressableText
+              title="Manufactures"
+              value={manufactures ? manufactures : "Choose"}
+              press={openManufacturesModal}
+            />
 
-          {/* Screen Type */}
-          <PressableText
-            title="Screen Type"
-            value={screenType ? screenType : "Choose"}
-            press={openScreenTypesModal}
-          />
+            {/* Screen Type */}
+            <PressableText
+              title="Screen Type"
+              value={screenType ? screenType : "Choose"}
+              press={openScreenTypesModal}
+            />
 
-          {/* Screen Size */}
-          <PressableText
-            title="Screen Size"
-            value={screenSize ? screenSize : "Choose"}
-            press={openScreenSizeModal}
-          />
+            {/* Screen Size */}
+            <PressableText
+              title="Screen Size"
+              value={screenSize ? screenSize : "Choose"}
+              press={openScreenSizeModal}
+            />
 
-          {/* Processor */}
-          <PressableText
-            title="Processor"
-            value={processor ? processor : "Choose"}
-            press={openProcessorModal}
-          />
+            {/* Processor */}
+            <PressableText
+              title="Processor"
+              value={processor ? processor : "Choose"}
+              press={openProcessorModal}
+            />
 
-          {/* Processor Generation */}
-          <PressableText
-            title="Processr Generation"
-            value={processorGeneration ? processorGeneration : "Choose"}
-            press={openProcessorGenerationModal}
-          />
+            {/* Processor Generation */}
+            <PressableText
+              title="Processr Generation"
+              value={processorGeneration ? processorGeneration : "Choose"}
+              press={openProcessorGenerationModal}
+            />
 
-          {/* Graphic Memory */}
-          <PressableText
-            title="Graphic Memory"
-            value={graphicsMemory ? graphicsMemory : "Choose"}
-            press={openGraphicMemoryModal}
-          />
+            {/* Graphic Memory */}
+            <PressableText
+              title="Graphic Memory"
+              value={graphicsMemory ? graphicsMemory : "Choose"}
+              press={openGraphicMemoryModal}
+            />
 
-          {/* RAM Size */}
-          <PressableText
-            title="Ram Size"
-            value={ramSize ? ramSize : "Choose"}
-            press={openRamSizeModal}
-          />
+            {/* RAM Size */}
+            <PressableText
+              title="Ram Size"
+              value={ramSize ? ramSize : "Choose"}
+              press={openRamSizeModal}
+            />
 
-          {/* Storage Type */}
-          <PressableText
-            title="Storage Type "
-            value={storageType ? storageType : "Choose"}
-            press={openStorageTypeModal}
-          />
+            {/* Storage Type */}
+            <PressableText
+              title="Storage Type "
+              value={storageType ? storageType : "Choose"}
+              press={openStorageTypeModal}
+            />
 
-          {/* Storage Size */}
-          <PressableText
-            title="Storage Size "
-            value={storageSize ? storageSize : "Choose"}
-            press={openStorageSizeModal}
-          />
+            {/* Storage Size */}
+            <PressableText
+              title="Storage Size "
+              value={storageSize ? storageSize : "Choose"}
+              press={openStorageSizeModal}
+            />
 
-          {/* Dilevery From */}
-          <PressableText
-            title="From"
-            value={dileveryFrom ? dileveryFrom : "Choose"}
-            press={openCountryModal}
-          />
+            {/* Dilevery From */}
+            <PressableText
+              title="From"
+              value={dileveryFrom ? dileveryFrom : "Choose"}
+              press={openCountryModal}
+            />
 
-          {/* Dilevery To */}
-          <PressableText
-            title="Dilevery To"
-            value={
-              dileveryTo.length > 0 ? formatDileveryTo(dileveryTo) : "Choose"
-            }
-            press={openDileveryToModal}
-          />
+            {/* Dilevery To */}
+            <PressableText
+              title="Dilevery To"
+              value={
+                dileveryTo.length > 0 ? formatDileveryTo(dileveryTo) : "Choose"
+              }
+              press={openDileveryToModal}
+            />
 
-          {/* Starting Date */}
-          <PressableText
-            title="Starting Date "
-            value={startingDate ? startingDate.toLocaleDateString() : "Choose"}
-            press={openStartingDatePickerModal}
-          />
+            {/* Starting Date */}
+            <PressableText
+              title="Starting Date "
+              value={
+                startingDate ? startingDate.toLocaleDateString() : "Choose"
+              }
+              press={openStartingDatePickerModal}
+            />
 
-          {/* Ending  Date */}
-          <PressableText
-            title="Ending Date "
-            value={endingDate ? endingDate.toLocaleDateString() : "Choose"}
-            press={openEndingDatePickerModal}
-          />
+            {/* Ending  Date */}
+            <PressableText
+              title="Ending Date "
+              value={endingDate ? endingDate.toLocaleDateString() : "Choose"}
+              press={openEndingDatePickerModal}
+            />
 
-          {/* Description */}
-          <InputText
-            label="Decsription"
-            placeholder="Enter Decsription"
-            setState={setDescription}
-            multiline={true}
-            inputStyles={styles.descriptionInput}
-            viewStyle={styles.inputView}
-          />
+            {/* Description */}
+            <InputText
+              label="Decsription"
+              placeholder="Enter Decsription"
+              setState={setDescription}
+              multiline={true}
+              inputStyles={styles.descriptionInput}
+              viewStyle={styles.inputView}
+            />
 
-          {/* Submit Button */}
-          <Button title="Submit" press={handleSubmit} />
-        </KeyboardAwareScrollView>
-      </View>
+            {/* Submit Button */}
+            <Button title="Submit" press={handleSubmit} />
+          </KeyboardAwareScrollView>
+        </View>
+      )}
 
       {/* Manufacture Modal */}
       <CustomModal

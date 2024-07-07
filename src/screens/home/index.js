@@ -236,7 +236,7 @@ export default function Home() {
           data={loading ? Array.from({ length: 10 }) : ads}
           scrollEnabled={true} // Ensure scrolling is enabled
           renderItem={({ item, index }) =>
-            loading ? <ShimmerEffect /> : <ListView item={item} />
+            loading ? <ShimmerEffect /> : <ListView item={item} myAds={true} />
           }
           keyExtractor={(item, index) => index}
           numColumns={1}

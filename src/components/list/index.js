@@ -8,8 +8,9 @@ import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import Timer from "../timer";
+import MoreMenu from "../moreMenu";
 
-export default function ListView({ item }) {
+export default function ListView({ item, myAds = false }) {
   const navigation = useNavigation();
 
   const [extend, setExtend] = useState(false);
@@ -43,10 +44,27 @@ export default function ListView({ item }) {
 
         {/* Content View */}
         <View style={styles.contentView}>
-          {/* Title */}
-          <Text style={styles.titleText} numberOfLines={1}>
-            {subString(item?.title, 23)}
-          </Text>
+          <View style={styles.textIconView}>
+            {/* Title */}
+            <Text style={styles.titleText} numberOfLines={1}>
+              {item?.title}
+            </Text>
+
+            {/* Favorite Icon and More Menu */}
+
+            {/* {moreMenu ? ( */}
+            {myAds && <MoreMenu item={item} />}
+
+            {/* ) : ( */}
+            {/* <View style={styles.iconView}> */}
+            {/* {user?._id != item?.addedBy ? ( */}
+            {/* <Favorite item={item} /> */}
+            {/* ) : ( */}
+            {/* <FontAwesome size={15} /> */}
+            {/* )} */}
+            {/* </View> */}
+            {/* )} */}
+          </View>
 
           {/* Remaining Time */}
           <View style={styles.counterView}>

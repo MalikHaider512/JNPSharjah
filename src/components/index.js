@@ -15,3 +15,4 @@ export { default as DropDownMenu } from "./dropDownMenu";
 export { default as ItemDetails } from "./itemDetails";
 export { default as Timer } from "./timer";
 export { default as Bidding } from "./bidding";
+export { default as MoreMenu } from "./moreMenu";

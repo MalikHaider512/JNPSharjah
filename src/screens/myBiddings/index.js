@@ -8,9 +8,12 @@ import { useNavigation } from "@react-navigation/native";
 import Images from "../../images";
 import { getAds } from "../../api/ads";
 import { getMyBiddings } from "../../api/bidding";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/user";
 
 export default function MyBiddings() {
   const navigation = useNavigation();
+  const user = useSelector(selectUser);
 
   const flatListRef = useRef(null);
 
@@ -69,9 +72,10 @@ export default function MyBiddings() {
   };
 
   const getAllAds = async () => {
-    let res = await getMyBiddings();
+    let res = await getMyBiddings(user?._id);
+    console.log("My Biddings", res);
 
-    setAds(res);
+    setAds(res ? res : []);
     setLoading(false);
   };
 

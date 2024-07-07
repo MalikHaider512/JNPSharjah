@@ -7,9 +7,12 @@ import { Header, ListView, ShimmerEffect } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import Images from "../../images";
 import { getAds, getMyAds } from "../../api/ads";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/user";
 
 export default function MyAds() {
   const navigation = useNavigation();
+  const user = useSelector(selectUser);
 
   const flatListRef = useRef(null);
 
@@ -68,9 +71,11 @@ export default function MyAds() {
   };
 
   const getAllAds = async () => {
-    let res = await getMyAds();
+    console.log("User Id ", user);
+    let res = await getMyAds(user?._id);
+    console.log("My Ads ", res.length);
 
-    setAds(res);
+    setAds(res ? res : []);
     setLoading(false);
   };
 

@@ -1,9 +1,10 @@
 import { mainUrl } from "../env";
 
-export async function getMyBiddings() {
+export async function getMyBiddings(id) {
   try {
-    let response = await fetch(mainUrl + "item/getAll");
+    let response = await fetch(mainUrl + `item/bids/user/${id}`);
     let json = await response.json();
+    console.log("Json", json);
     return json;
   } catch (error) {
     console.log("Error in Getting Ads", error);
