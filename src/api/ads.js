@@ -12,7 +12,10 @@ export async function getAds() {
 
 export async function getMyAds(id) {
   try {
-    let response = await fetch(mainUrl + `item/bidsby/${id}`);
+    let response = await fetch(mainUrl + `item/bidsby/${id}`, {
+      method: "GET",
+      redirect: "follow",
+    });
     let json = await response.json();
     return json;
   } catch (error) {

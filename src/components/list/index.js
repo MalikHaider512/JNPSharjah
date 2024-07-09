@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import Timer from "../timer";
 import MoreMenu from "../moreMenu";
+import Favorite from "../favorite";
 
 export default function ListView({ item, myAds = false }) {
   const navigation = useNavigation();
@@ -53,7 +54,7 @@ export default function ListView({ item, myAds = false }) {
             {/* Favorite Icon and More Menu */}
 
             {/* {moreMenu ? ( */}
-            {myAds && <MoreMenu item={item} />}
+            {myAds ? <MoreMenu item={item} /> : <Favorite item={item} />}
 
             {/* ) : ( */}
             {/* <View style={styles.iconView}> */}
