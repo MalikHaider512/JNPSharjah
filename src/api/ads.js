@@ -63,7 +63,7 @@ export async function editAd(data) {
   }
 }
 
-const refreshAd = async (itemid) => {
+export const refreshAd = async (itemid) => {
   try {
     let response = await fetch(mainUrl + `item/refreshCreatedAt/${itemid}`, {
       method: "PUT",
@@ -80,7 +80,7 @@ const refreshAd = async (itemid) => {
   }
 };
 
-const deleteAd = async (id) => {
+export const deleteAd = async (id) => {
   try {
     let response = await fetch(mainUrl + `item/delete/${id}`, {
       method: "DELETE",
@@ -98,7 +98,7 @@ const deleteAd = async (id) => {
   }
 };
 
-const muteAd = async (id) => {
+export const muteAd = async (id) => {
   try {
     let response = await fetch(mainUrl + `item/hide/${id}`, {
       method: "PUT",
@@ -114,7 +114,7 @@ const muteAd = async (id) => {
   }
 };
 
-const unMuteAd = async (id) => {
+export const unMuteAd = async (id) => {
   try {
     let response = await fetch(mainUrl + `item/unhide/${id}`, {
       method: "PUT",

@@ -38,3 +38,24 @@ export async function logInUser(email, password) {
     console.log("Error in Sign In", error);
   }
 }
+
+export async function deleteUser(id, password) {
+  try {
+    let response = await fetch(mainUrl + `user/deleteUserAndItems/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password: password,
+      }),
+    });
+
+    let json = await response.json();
+
+    return json;
+  } catch (error) {
+    console.log("User delete Error", error);
+  }
+}

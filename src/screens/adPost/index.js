@@ -376,6 +376,7 @@ export default function AdPost() {
     setRamSizeList(ramSizes);
     setStorageTypeList(storageTypes);
     setStorageSizeList(storageSizes);
+    setLoading(false);
   };
 
   useEffect(() => {

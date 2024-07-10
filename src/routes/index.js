@@ -12,6 +12,7 @@ import {
   DetailScreen,
   FilterScreen,
   HomeScreen,
+  ManageAccountScreen,
   MyAdsScreen,
   MyBiddingsScreen,
   ProfileScreen,
@@ -71,6 +72,11 @@ export default function Routes() {
         <Stack.Screen
           name={ScreenNames.MYBIDDINGS}
           component={MyBiddingsScreen}
+        />
+
+        <Stack.Screen
+          name={ScreenNames.MANAGEACCOUNT}
+          component={ManageAccountScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

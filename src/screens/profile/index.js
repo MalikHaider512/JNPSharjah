@@ -26,6 +26,10 @@ export default function Profile() {
     navigation.navigate(ScreenNames.MYBIDDINGS);
   };
 
+  const handleManageAccount = () => {
+    navigation.navigate(ScreenNames.MANAGEACCOUNT);
+  };
+
   const handleLogOut = () => {
     dispatch(setUserData({}));
     dispatch(setIsLogin(false));
@@ -47,9 +51,7 @@ export default function Profile() {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.nameText}>
-            {userData?.firstname} {userData?.lastname}
-          </Text>
+          <Text style={styles.nameText}>{userData?.fullname}</Text>
           <Text style={styles.emailText}>{userData?.email}</Text>
 
           <Button
@@ -79,6 +81,13 @@ export default function Profile() {
             iconName="hard-drive"
             text="My Biddings"
             press={handleMyBiddings}
+          />
+
+          {/* Manage Account */}
+          <ProfileContent
+            iconName="lock"
+            text="Manage Account"
+            press={handleManageAccount}
           />
 
           {/* Contact Us */}

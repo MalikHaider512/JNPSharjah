@@ -1,18 +1,19 @@
 import { View, Text, FlatList, Image, RefreshControl } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ScreenWrapper } from "react-native-screen-wrapper";
 import AppColors from "../../utils/AppColors";
 import styles from "./styles";
 import { Header, ListView, ShimmerEffect } from "../../components";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Images from "../../images";
 import { getAds, getMyAds } from "../../api/ads";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/slices/user";
+import { selectMyAds, selectUser } from "../../redux/slices/user";
 
 export default function MyAds() {
   const navigation = useNavigation();
   const user = useSelector(selectUser);
+  const myAdList = useSelector(selectMyAds);
 
   const flatListRef = useRef(null);
 
@@ -83,6 +84,16 @@ export default function MyAds() {
     getAllAds();
   }, []);
 
+  // useEffect(() => {
+  //   getAllAds();
+  // }, [myAdList]);
+
+  useFocusEffect(
+    useCallback(() => {
+      getAllAds();
+    }, [myAdList])
+  );
+
   return (
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
       <View style={styles.parentView}>
@@ -95,7 +106,7 @@ export default function MyAds() {
           data={loading ? Array.from({ length: 10 }) : ads}
           scrollEnabled={true} // Ensure scrolling is enabled
           renderItem={({ item, index }) =>
-            loading ? <ShimmerEffect /> : <ListView item={item} />
+            loading ? <ShimmerEffect /> : <ListView item={item} myAds={true} />
           }
           keyExtractor={(item, index) => index}
           numColumns={1}

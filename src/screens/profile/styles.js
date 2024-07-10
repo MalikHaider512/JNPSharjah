@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
   },
   imageView: {
     width: width(100),
-    height: height(38),
+    height: height(35),
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: height(3),
+    marginBottom: height(1),
   },
   imageStyle: {
     width: width(40),
@@ -20,19 +20,21 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   nameText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "600",
     marginTop: height(1),
   },
   emailText: {
     fontSize: 14,
-    marginTop: height(0.5),
+    // marginTop: height(0.5),
   },
   profileBtn: {
     backgroundColor: AppColors.defaultbackground,
     borderColor: AppColors.primary,
     borderWidth: 1,
     width: width(40),
+    marginTop: height(1),
+    marginBottom: height(1),
   },
   profileText: {
     color: AppColors.primary,
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
   },
   contentView: {
     width: width(100),
-    height: height(50),
+    height: height(53),
     backgroundColor: AppColors.wildSand,
     borderTopLeftRadius: 40,
     borderTopEndRadius: 40,

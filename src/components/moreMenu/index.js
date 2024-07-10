@@ -8,9 +8,15 @@ import AppColors from "../../utils/AppColors";
 import Modal from "react-native-modal";
 import Button from "../button";
 import ScreenNames from "../../routes/routes";
+import { deleteAd } from "../../api/ads";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setMyAdsList } from "../../redux/slices/user";
+import { errorMessage, successMessage } from "../../utils/Methods";
 
 export default function MoreMenu({ item }) {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const user = useSelector(selectUser);
 
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,56 +38,7 @@ export default function MoreMenu({ item }) {
     });
   };
 
-  const handleRefresh = async () => {
-    //   let res = await refreshAd(item?._id);
-    //   console.log("Refresh Ad Response", res);
-
-    //   if (res?.message === `Item 'createdAt' timestamp refreshed`) {
-    //     successMessage("Refresh", "Ad Refreshed");
-    //     const query = {
-    //       addedBy: user._id,
-    //     };
-    //     let res = await getMyAds(query);
-    //     dispatch(setMyAds(res?.items));
-    //   } else {
-    //     infoMessage("Refresh", "You can refresh ad after 3 Hours");
-    //   }
-
-    setVisible(false);
-  };
-
-  const handleMute = async () => {
-    //   let res = await muteItem(item?._id);
-
-    //   if (res?.message === "Item hidden successfully") {
-    //     successMessage("Mute", "Item Muted successfully");
-    //     const query = {
-    //       addedBy: user._id,
-    //     };
-    //     let res = await getMyAds(query);
-    //     dispatch(setMyAds(res?.items));
-    //   } else {
-    //     errorMessage("Mute", "Item Not Muted");
-    //   }
-    setVisible(false);
-  };
-
-  const handleUNMute = async () => {
-    //   let res = await unMuteItem(item?._id);
-    //   if (res?.message === "Item unhidden successfully") {
-    //     successMessage("Unmute", "Item Unmuted successfully");
-    //     const query = {
-    //       addedBy: user._id,
-    //     };
-    //     let res = await getMyAds(query);
-    //     dispatch(setMyAds(res?.items));
-    //   } else {
-    //     errorMessage("Unmute", "Item Not Unmuted");
-    //   }
-    setVisible(false);
-  };
-
-  const deleteAd = () => {
+  const deletAd = () => {
     setVisible(false);
     setTimeout(openModal, 500);
   };
@@ -97,19 +54,16 @@ export default function MoreMenu({ item }) {
   const handleDelete = async () => {
     setModalVisible(false);
 
-    // let res = await deleteItem(item?._id);
-    // deleteItemFromfirebase();
-    // if (res?.message === "Item and associated images successfully deleted") {
-    //   successMessage("Item Delete", "Item Deleted Successfully");
+    let res = await deleteAd(item?._id);
+    console.log("Delete Item Response", res);
+    if (res?.message === "Item and associated data successfully deleted") {
+      successMessage("Item Delete", "Item Deleted Successfully");
 
-    //   const query = {
-    //     addedBy: user._id,
-    //   };
-    //   let res = await getMyAds(query);
-    //   dispatch(setMyAds(res));
-    // } else {
-    //   errorMessage("Item Delete", "Error in deleting item");
-    // }
+      let res = await getMyAds(user._id);
+      dispatch(setMyAdsList(res));
+    } else {
+      errorMessage("Item Delete", "Error in deleting item");
+    }
     setVisible(false);
   };
 
@@ -134,38 +88,7 @@ export default function MoreMenu({ item }) {
 
         <MenuDivider color={AppColors.gray} />
 
-        {!item?.hidden && (
-          <MenuItem onPress={handleRefresh}>
-            <View style={styles.menuItemView}>
-              <SimpleLineIcons
-                style={styles.menuItemIcon}
-                name="refresh"
-                size={15}
-              />
-              <Text style={styles.menuItemText}>Refresh</Text>
-            </View>
-          </MenuItem>
-        )}
-
-        <MenuDivider color={AppColors.gray} />
-
-        <MenuItem onPress={item?.hidden ? handleUNMute : handleMute}>
-          <View style={styles.menuItemView}>
-            <AntDesign
-              name={item?.hidden ? "playcircleo" : "pause"}
-              size={15}
-              style={styles.menuItemIcon}
-            />
-
-            <Text style={styles.menuItemText}>
-              {item?.hidden ? "Unmute" : "Mute"}
-            </Text>
-          </View>
-        </MenuItem>
-
-        <MenuDivider color={AppColors.gray} />
-
-        <MenuItem onPress={deleteAd}>
+        <MenuItem onPress={deletAd}>
           <View style={styles.menuItemView}>
             <AntDesign
               style={{ ...styles.menuItemIcon, ...styles.deleteIcon }}

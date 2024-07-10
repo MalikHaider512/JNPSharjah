@@ -10,3 +10,4 @@ export { default as AdPostScreen } from "./adPost";
 export { default as DetailScreen } from "./details";
 export { default as MyAdsScreen } from "./myAds";
 export { default as MyBiddingsScreen } from "./myBiddings";
+export { default as ManageAccountScreen } from "./manageAccount";

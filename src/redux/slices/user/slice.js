@@ -4,7 +4,7 @@ const initialState = {
   userData: {},
   isLogin: false,
   token: null,
-  favoritesList: [],
+  myAdsList: [],
   bid: 0,
 };
 
@@ -19,15 +19,10 @@ const userSlice = createSlice({
       state.userData = action.payload;
     },
 
-    addFavorites: (state, action) => {
-      state.favoritesList = [action.payload, ...state.favoritesList];
+    setMyAdsList: (state, action) => {
+      state.myAdsList = action.payload;
     },
-    removeFavorites: (state, action) => {
-      const newList = state.favoritesList.filter((item) => {
-        return item !== action.payload;
-      });
-      state.favoritesList = newList;
-    },
+
     addBid: (state, action) => {
       state.bid = state.bid + 1;
     },
