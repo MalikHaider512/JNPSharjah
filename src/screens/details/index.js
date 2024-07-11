@@ -31,6 +31,7 @@ import {
   parseDate,
   toCalendarDate,
 } from "@internationalized/date";
+import Images from "../../images";
 
 export default function Details() {
   const route = useRoute();
@@ -44,7 +45,7 @@ export default function Details() {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [seeMore, setSeeMore] = useState(false);
 
-  console.log("Item", route.params.item?.bidDuration);
+  console.log("Item", route.params.item);
 
   const openImageModal = (index) => {
     setPreviewIndex(index ? index : 0);
@@ -145,10 +146,8 @@ export default function Details() {
               ) : (
                 // Default Image
                 <Image
-                  source={{
-                    uri: "https://imagedelivery.net/sVauOVD8CVXGq0TdeFsc0A/72a6faf4-e1e7-446a-a03c-de4c0be2e500/public",
-                  }}
-                  resizeMode="cover"
+                  source={Images.JNPLOGO}
+                  resizeMode="contain"
                   style={styles.imageStyle}
                 />
               )}

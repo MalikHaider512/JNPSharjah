@@ -29,7 +29,7 @@ export default function TradeOption() {
           btnStyle={styles.buttonStyle}
           textStyle={styles.btnText}
           press={() => {
-            handlePress("Want to Buy");
+            handlePress("Buy");
           }}
         />
 
@@ -38,7 +38,7 @@ export default function TradeOption() {
           btnStyle={styles.buttonStyle}
           textStyle={styles.btnText}
           press={() => {
-            handlePress("Want to Sell");
+            handlePress("Sell");
           }}
         />
       </View>

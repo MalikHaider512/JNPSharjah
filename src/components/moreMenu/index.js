@@ -8,7 +8,7 @@ import AppColors from "../../utils/AppColors";
 import Modal from "react-native-modal";
 import Button from "../button";
 import ScreenNames from "../../routes/routes";
-import { deleteAd } from "../../api/ads";
+import { deleteAd, getMyAds } from "../../api/ads";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setMyAdsList } from "../../redux/slices/user";
 import { errorMessage, successMessage } from "../../utils/Methods";
@@ -55,11 +55,12 @@ export default function MoreMenu({ item }) {
     setModalVisible(false);
 
     let res = await deleteAd(item?._id);
-    console.log("Delete Item Response", res);
-    if (res?.message === "Item and associated data successfully deleted") {
+    console.log("Delete Item Response", res?.message);
+    if (res?.message == "Item and associated data successfully deleted") {
       successMessage("Item Delete", "Item Deleted Successfully");
 
       let res = await getMyAds(user._id);
+      console.log("More Menu My Ads", res);
       dispatch(setMyAdsList(res));
     } else {
       errorMessage("Item Delete", "Error in deleting item");

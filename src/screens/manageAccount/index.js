@@ -66,7 +66,7 @@ export default function ManageAccount() {
           style={styles.deleteAccountBtn}
           onPress={openDeleteModal}
         >
-          <AntDesign name="delete" size={20} color={AppColors.black} />
+          <AntDesign name="delete" size={20} color={AppColors.white} />
           <Text style={styles.deleteAccountText}>Delete Account</Text>
         </TouchableOpacity>
 
@@ -86,7 +86,6 @@ export default function ManageAccount() {
               viewStyle={styles.passwordInputView}
               setState={setPassword}
               password={true}
-              ViewStyle={styles.passwordInputView}
               inputStyles={styles.passwordInput}
             />
 

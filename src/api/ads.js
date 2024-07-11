@@ -24,7 +24,6 @@ export async function getMyAds(id) {
 }
 
 export async function postAd(data) {
-  console.log("Ad Post Api Calling", data);
   try {
     let response = await fetch(mainUrl + "item/add", {
       method: "POST",

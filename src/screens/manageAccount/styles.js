@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   deleteAccountBtn: {
     width: width(90),
     height: height(6),
-    backgroundColor: AppColors.yellow,
+    backgroundColor: AppColors.primary,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
   deleteAccountText: {
     fontSize: 18,
     fontWeight: "600",
-    paddingLeft: "4%",
+    paddingLeft: width(4),
+    color: AppColors.white,
   },
   modalView: {
     backgroundColor: AppColors.white,
@@ -33,18 +34,18 @@ const styles = StyleSheet.create({
     height: height(27),
     borderWidth: 1,
     borderColor: AppColors.primary,
+    justifyContent: "center",
   },
   passwordInputView: {
-    width: width(65),
+    width: width(67),
     marginBottom: height(1),
   },
   passwordInput: {
-    width: width(53),
-    marginBottom: height(1),
+    width: width(50),
   },
   buttonsView: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   cancelBtn: {
     width: width(30),

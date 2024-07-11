@@ -45,6 +45,7 @@ export default function InputText({
             onPress={() => {
               setSecure(!secure);
             }}
+            style={styles.iconView}
           >
             <Entypo
               name={!secure ? "eye" : "eye-with-line"}

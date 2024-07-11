@@ -14,6 +14,7 @@ import {
   UploadImage,
 } from "../../components";
 import {
+  conditions,
   countries,
   graphicMemory,
   manufacturers,
@@ -48,6 +49,10 @@ export default function AdPost() {
   const [itemPerBox, setItemPerBox] = useState(0);
   const [weightPerBox, setWeightPerBox] = useState(0);
   const [description, setDescription] = useState("");
+
+  const [condition, setCondition] = useState("");
+  const [conditionList, setConditionList] = useState([]);
+  const [conditionModal, setConditionModal] = useState(false);
 
   const [manufactures, setManufactures] = useState("");
   const [manufacturesList, setManufacturesList] = useState([]);
@@ -100,6 +105,14 @@ export default function AdPost() {
   const [startingDatePickerModal, setStartingDatePickerModal] = useState(false);
   const [endingatePickerModal, setEndingDatePickerModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+
+  const openConditionModal = () => {
+    setConditionModal(true);
+  };
+
+  const closeConditionModal = () => {
+    setConditionModal(false);
+  };
 
   const openManufacturesModal = () => {
     setManufacturesModal(true);
@@ -256,14 +269,13 @@ export default function AdPost() {
   }
 
   const handleSubmit = async () => {
-    // setLoadingModal(true);
+    setLoadingModal(true);
 
     console.log("Handle Submit");
-    console.log("Starting Date", parseDate(formatDate(startingDate)));
-    console.log("Ending Date", parseDate(formatDate(endingDate)));
+    console.log("Imahes", images);
 
     const details = {
-      condition: "Used",
+      condition: condition,
       deliveryTo: dileveryTo,
       graphicsMemory: graphicsMemory,
       itemsPerBox: itemPerBox,
@@ -280,16 +292,6 @@ export default function AdPost() {
       wantTo: route.params?.tradeOption,
       weightPerBox: weightPerBox,
     };
-
-    console.log(
-      "Details....",
-      details,
-      route.params?.category,
-      route.params?.subCategory,
-      description,
-      title,
-      user?._id
-    );
 
     var formdata = new FormData();
     formdata.append("addedBy", user?._id);
@@ -315,6 +317,7 @@ export default function AdPost() {
       })
     );
     images.forEach((img, index) => {
+      console.log("Formatting Images", img);
       formdata.append("image", {
         name: `imag${index}`,
         type: "image/jpeg", // Adjust the type if needed
@@ -322,7 +325,7 @@ export default function AdPost() {
       });
     });
 
-    console.log("Form Data", formdata);
+    console.log("Form Data", formdata?.images);
 
     try {
       let res = await postAd(formdata);
@@ -332,7 +335,7 @@ export default function AdPost() {
 
       navigation.navigate(ScreenNames.HOME);
     } catch (error) {
-      console.log("Error in Ad Post", error);
+      console.log("Ad Post", error);
     }
   };
 
@@ -366,6 +369,7 @@ export default function AdPost() {
   };
 
   const getData = async () => {
+    setConditionList(conditions);
     setManufacturesList(manufacturers);
     setCountryList(countries);
     setScreenTypeList(screenTypes);
@@ -376,6 +380,7 @@ export default function AdPost() {
     setRamSizeList(ramSizes);
     setStorageTypeList(storageTypes);
     setStorageSizeList(storageSizes);
+
     setLoading(false);
   };
 
@@ -474,6 +479,13 @@ export default function AdPost() {
               setState={setTargetPrice}
               inputStyles={styles.inputStyle}
               viewStyle={styles.inputView}
+            />
+
+            {/* Condition */}
+            <PressableText
+              title="Condition"
+              value={condition ? condition : "Choose"}
+              press={openConditionModal}
             />
 
             {/* Manufactures */}
@@ -586,6 +598,17 @@ export default function AdPost() {
           </KeyboardAwareScrollView>
         </View>
       )}
+
+      {/* Condition Modal */}
+      <CustomModal
+        isVisible={conditionModal}
+        closeModal={closeConditionModal}
+        title="Condition"
+        viewStyle={styles.modalStyle}
+        data={conditionList}
+        setValue={setCondition}
+        setModalState={setConditionModal}
+      />
 
       {/* Manufacture Modal */}
       <CustomModal

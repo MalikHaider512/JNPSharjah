@@ -11,15 +11,15 @@ export default function ItemDetails({ category, subCategory, details }) {
       {category && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Category</Text>
-          <Text style={styles.gridText}>{category}</Text>
+          <Text style={styles.gridText}>{category ? category : ""}</Text>
         </View>
       )}
 
       {/* Sub Category */}
       {subCategory && (
         <View style={styles.gridView}>
-          <Text style={styles.gridAttributeText}>Category</Text>
-          <Text style={styles.gridText}>{subCategory}</Text>
+          <Text style={styles.gridAttributeText}>Sub Category</Text>
+          <Text style={styles.gridText}>{subCategory ? subCategory : ""}</Text>
         </View>
       )}
 
@@ -40,7 +40,7 @@ export default function ItemDetails({ category, subCategory, details }) {
       )}
 
       {/* Number Of Boxes */}
-      {details && details?.numberOfBoxes && (
+      {details && details?.numberOfBoxes > 0 && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Number Of Boxes</Text>
           <Text style={styles.gridText}>{details?.numberOfBoxes}</Text>
@@ -48,7 +48,7 @@ export default function ItemDetails({ category, subCategory, details }) {
       )}
 
       {/* Item Per Box */}
-      {details && details?.itemsPerBox && (
+      {details && details?.itemsPerBox > 0 && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Item Per Box</Text>
           <Text style={styles.gridText}>{details?.itemsPerBox}</Text>
@@ -56,7 +56,7 @@ export default function ItemDetails({ category, subCategory, details }) {
       )}
 
       {/* Weight Per Box */}
-      {details && details?.weightPerBox && (
+      {details && details?.weightPerBox > 0 && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Weight Per Box</Text>
           <Text style={styles.gridText}>{details?.weightPerBox}</Text>
@@ -136,10 +136,9 @@ export default function ItemDetails({ category, subCategory, details }) {
       )}
 
       {/* Dilevery To */}
-      {details && details?.deliveryTo && (
+      {details && details?.deliveryTo.lenght > 0 && (
         <View style={styles.gridView}>
           <Text style={styles.gridAttributeText}>Delivery To</Text>
-          {/* <Text style={styles.gridText}>{details?.deliveryTo}</Text> */}
           <View style={styles.countryView}>
             {details?.deliveryTo.map((item) => {
               return (

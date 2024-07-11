@@ -7,13 +7,17 @@ import { Header, ListView, ShimmerEffect } from "../../components";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Images from "../../images";
 import { getAds, getMyAds } from "../../api/ads";
-import { useSelector } from "react-redux";
-import { selectMyAds, selectUser } from "../../redux/slices/user";
+import { useDispatch, useSelector } from "react-redux";
+import { selectMyAds, selectUser, setMyAdsList } from "../../redux/slices/user";
 
 export default function MyAds() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const user = useSelector(selectUser);
   const myAdList = useSelector(selectMyAds);
+
+  console.log("Redux My Ads List", myAdList);
 
   const flatListRef = useRef(null);
 
@@ -73,10 +77,15 @@ export default function MyAds() {
 
   const getAllAds = async () => {
     console.log("User Id ", user);
-    let res = await getMyAds(user?._id);
-    console.log("My Ads ", res.length);
+    try {
+      let res = await getMyAds(user?._id);
+      console.log("My Ads Response", res?.length);
 
-    setAds(res ? res : []);
+      setAds(res ? res : []);
+      // dispatch(setMyAdsList(res));
+    } catch (error) {
+      console.log("My Ads", error);
+    }
     setLoading(false);
   };
 
