@@ -30,7 +30,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { parseDate } from "@internationalized/date";
 import Modal from "react-native-modal";
-import { postAd } from "../../api/ads";
+import { editAd, editImages, postAd } from "../../api/ads";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import { useSelector } from "react-redux";
@@ -268,31 +268,63 @@ export default function AdPost() {
     return date.toISOString().split("T")[0]; // returns "YYYY-MM-DD"
   }
 
-  const handleSubmit = async () => {
-    setLoadingModal(true);
+  const handleEditAd = async (details) => {
+    let updatedImage = [];
+    if (images.length > 0) {
+      var formdata = new FormData();
 
-    console.log("Handle Submit");
-    console.log("Imahes", images);
+      images.forEach((img, index) => {
+        formdata.append("image", {
+          name: `imag${index}`,
+          type: "image/jpeg", // Adjust the type if needed
+          uri: img,
+        });
+      });
 
-    const details = {
-      condition: condition,
-      deliveryTo: dileveryTo,
-      graphicsMemory: graphicsMemory,
-      itemsPerBox: itemPerBox,
-      manufacturer: manufactures,
-      numberOfBoxes: noOfBoxes,
-      processor: processor,
-      processorGeneration: processorGeneration,
-      ramSize: ramSize,
-      screenSize: screenSize,
-      screenType: screenType,
-      sellerFrom: dileveryFrom,
-      storageSize: storageSize,
-      storageType: storageType,
-      wantTo: route.params?.tradeOption,
-      weightPerBox: weightPerBox,
+      let imgRes = await editImages(formdata);
+      console.log("Edit Images Response", imgRes);
+      updatedImage = imgRes.imageUrls;
+    }
+
+    const updatedData = {
+      title,
+      description,
+      details: details,
+      price,
+      startingPrice: startingPrice,
+      targetPrice: targetPrice,
+      bidDuration: JSON.stringify({
+        start: parseDate(formatDate(startingDate)),
+        end: parseDate(formatDate(endingDate)),
+      }),
+
+      image: updatedImage,
     };
 
+    console.log("Edited Data", updatedData);
+
+    try {
+      let res = await editAd(route.params.data?._id, updatedData);
+      console.log("Edit Ad Response", res);
+
+      if (res?.message === "Item successfully updated") {
+        successMessage("Edit Ad", "Your ad has been edited successfully");
+        dispatch(setSelectedLocation());
+        setImages([]);
+        navigation.navigate(ScreenNames.MYADS);
+      } else {
+        // setLoadingModal(false);
+        errorMessage("Edit Ad", "Oops! Something went wrong");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      // setLoadingModal(false);
+      errorMessage("Edit Ad", "Oops! Something went wrong");
+    }
+  };
+
+  const handleAdPost = async (details) => {
     var formdata = new FormData();
     formdata.append("addedBy", user?._id);
     formdata.append("title", title.trim());
@@ -317,7 +349,6 @@ export default function AdPost() {
       })
     );
     images.forEach((img, index) => {
-      console.log("Formatting Images", img);
       formdata.append("image", {
         name: `imag${index}`,
         type: "image/jpeg", // Adjust the type if needed
@@ -325,7 +356,7 @@ export default function AdPost() {
       });
     });
 
-    console.log("Form Data", formdata?.images);
+    console.log("Form Data", formdata?.image);
 
     try {
       let res = await postAd(formdata);
@@ -339,11 +370,46 @@ export default function AdPost() {
     }
   };
 
+  const handleSubmit = async () => {
+    setLoadingModal(true);
+
+    console.log("Handle Submit");
+    console.log("Images", images);
+
+    const details = {
+      condition: condition,
+      deliveryTo: dileveryTo,
+      graphicsMemory: graphicsMemory,
+      itemsPerBox: itemPerBox,
+      manufacturer: manufactures,
+      numberOfBoxes: noOfBoxes,
+      processor: processor,
+      processorGeneration: processorGeneration,
+      ramSize: ramSize,
+      screenSize: screenSize,
+      screenType: screenType,
+      sellerFrom: dileveryFrom,
+      storageSize: storageSize,
+      storageType: storageType,
+      wantTo: route.params?.tradeOption,
+      weightPerBox: weightPerBox,
+    };
+
+    if (route.params?.edit) {
+      console.log("Editing....");
+      handleEditAd(details);
+    } else {
+      handleAdPost(details);
+    }
+
+    setLoading(false);
+  };
+
   const setAttributesValue = () => {
     console.log("Setting Attributes");
     setLoading(true);
     const data = route.params?.data;
-    console.log("Data:", data?.details);
+    console.log("Data:", data);
     setTitle(data?.title);
     setNoOfBoxes(data.details?.numberOfBoxes);
     setItemPerBox(data.details?.itemsPerBox);
@@ -360,11 +426,13 @@ export default function AdPost() {
     setStorageType(data.details?.storageType);
     setStorageSize(data.details?.storageSize);
     setDileveryFrom(data.details?.sellerFrom);
-    setDileveryTo(data.details?.deliveryTo);
+    setDileveryTo(
+      data.details?.deliveryTo.length > 0 ? data.details?.deliveryTo : []
+    );
     // setStartingDate();
     // setEndingDate();
     setDescription(data?.description);
-    setImages(data?.images);
+    setImages(data?.image ? data?.image : []);
     setLoading(false);
   };
 

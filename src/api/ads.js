@@ -42,25 +42,41 @@ export async function postAd(data) {
   }
 }
 
-export async function editAd(data) {
-  console.log("Ad Post Api Calling", data);
+export const editImages = async (data) => {
   try {
-    let response = await fetch(mainUrl + "item/add", {
-      method: "PUT",
+    let response = await fetch(mainUrl + "image/upload", {
+      method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
       },
       body: data,
       redirect: "follow",
     });
-
     let json = await response.json();
-    console.log("Response", json);
+
     return json;
   } catch (error) {
-    console.log("Error in Ad Post", error);
+    console.log("Item editImages", error);
+    return error;
   }
-}
+};
+
+export const editAd = async (id, data) => {
+  try {
+    let response = await fetch(mainUrl + `item/update/${id}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let json = await response.json();
+    return json;
+  } catch (error) {
+    console.log("Item editItem", error);
+  }
+};
 
 export const refreshAd = async (itemid) => {
   try {

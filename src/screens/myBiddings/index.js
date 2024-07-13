@@ -73,9 +73,9 @@ export default function MyBiddings() {
 
   const getAllAds = async () => {
     let res = await getMyBiddings(user?._id);
-    console.log("My Biddings", res);
+    console.log("My Biddings", res?.items);
 
-    setAds(res ? res : []);
+    setAds(res?.items ? res?.items : []);
     setLoading(false);
   };
 

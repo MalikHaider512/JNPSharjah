@@ -3,16 +3,20 @@ import React, { useState } from "react";
 import { Image } from "react-native";
 import Images from "../../images";
 import { subString } from "../../utils/Methods";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import Timer from "../timer";
 import MoreMenu from "../moreMenu";
 import Favorite from "../favorite";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/user";
 
 export default function ListView({ item, myAds = false }) {
   const navigation = useNavigation();
+
+  const user = useSelector(selectUser);
 
   const [extend, setExtend] = useState(false);
 
@@ -53,18 +57,17 @@ export default function ListView({ item, myAds = false }) {
 
             {/* Favorite Icon and More Menu */}
 
-            {/* {moreMenu ? ( */}
-            {myAds ? <MoreMenu item={item} /> : <Favorite item={item} />}
-
-            {/* ) : ( */}
-            {/* <View style={styles.iconView}> */}
-            {/* {user?._id != item?.addedBy ? ( */}
-            {/* <Favorite item={item} /> */}
-            {/* ) : ( */}
-            {/* <FontAwesome size={15} /> */}
-            {/* )} */}
-            {/* </View> */}
-            {/* )} */}
+            {myAds ? (
+              <MoreMenu item={item} />
+            ) : (
+              <View style={styles.iconView}>
+                {user?._id != item?.addedBy ? (
+                  <Favorite item={item} />
+                ) : (
+                  <FontAwesome size={15} />
+                )}
+              </View>
+            )}
           </View>
 
           {/* Remaining Time */}

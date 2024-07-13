@@ -6,18 +6,20 @@ import styles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { infoMessage } from "../../utils/Methods";
 import { useFocusEffect } from "@react-navigation/native";
-import { selectIsLogin } from "../../redux/slices/user";
+import { selectIsLogin, selectUser } from "../../redux/slices/user";
 import {
   addFavorite,
   removeFavorite,
   selectFavoriteList,
 } from "../../redux/slices/favorites";
+import { addToFavorite, removeFromFavorite } from "../../api/favorites";
 
 export default function Favorite({ item, iconColor }) {
   const dispatch = useDispatch();
 
   const isLogin = useSelector(selectIsLogin);
   const favorites = useSelector(selectFavoriteList);
+  const user = useSelector(selectUser);
 
   const [favorite, setFavorite] = useState(false);
 
@@ -25,10 +27,10 @@ export default function Favorite({ item, iconColor }) {
     const found = favorites?.includes(item?._id);
     if (!found) {
       dispatch(addFavorite(item._id));
-      //   addToFavorite(user?._id, item._id);
+      addToFavorite(user?._id, item._id);
     } else {
       dispatch(removeFavorite(item._id));
-      //   removeFromFavorite(user?._id, item._id);
+      removeFromFavorite(user?._id, item._id);
     }
     setFavorite(!found);
   };
@@ -38,16 +40,16 @@ export default function Favorite({ item, iconColor }) {
   };
 
   const checkFavorite = () => {
-    // setFavorite(favorites?.includes(item?._id));
+    setFavorite(favorites?.includes(item?._id));
   };
 
-  //   useEffect(() => {
-  //     checkFavorite();
-  //   }, []);
+  useEffect(() => {
+    checkFavorite();
+  }, []);
 
-  //   useEffect(() => {
-  //     checkFavorite();
-  //   }, [favorites, item]);
+  useEffect(() => {
+    checkFavorite();
+  }, [favorites, item]);
 
   return (
     <TouchableOpacity

@@ -13,6 +13,8 @@ const ScreenNames = {
   MYADS: "MyAds",
   MYBIDDINGS: "MyBiddings",
   MANAGEACCOUNT: "ManageAccount",
+  MYFAVIROTES: "MyFavorites",
+  EDITPROFILE: "EditProfile",
 };
 
 export default ScreenNames;

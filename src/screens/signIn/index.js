@@ -23,6 +23,7 @@ import {
 import Images from "../../images";
 import { setIsLogin, setUserData } from "../../redux/slices/user";
 import { useDispatch } from "react-redux";
+import { setFavorite } from "../../redux/slices/favorites";
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -76,6 +77,7 @@ export default function SignIn() {
       if (loginResponse?.email === email) {
         dispatch(setUserData(loginResponse));
         dispatch(setIsLogin(true));
+        dispatch(setFavorite(loginResponse?.favorites));
 
         if (rememberMe) {
           console.log("Saving Credentials");

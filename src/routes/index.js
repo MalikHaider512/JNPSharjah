@@ -10,11 +10,13 @@ import {
   AdPostScreen,
   CategoriesScreen,
   DetailScreen,
+  EditProfileScreen,
   FilterScreen,
   HomeScreen,
   ManageAccountScreen,
   MyAdsScreen,
   MyBiddingsScreen,
+  MyFavoritesScreen,
   ProfileScreen,
   SignInScreen,
   SignUpScreen,
@@ -24,6 +26,7 @@ import { getCredentialValueFor } from "../utils/Methods";
 import { logInUser } from "../api/user";
 import { useDispatch } from "react-redux";
 import { setIsLogin, setUserData } from "../redux/slices/user";
+import { setFavorite } from "../redux/slices/favorites";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +50,7 @@ export default function Routes() {
           console.log("Set redux");
           dispatch(setUserData(loginResponse));
           dispatch(setIsLogin(true));
+          dispatch(setFavorite(loginResponse?.favorites));
         }
       }
     }
@@ -77,6 +81,16 @@ export default function Routes() {
         <Stack.Screen
           name={ScreenNames.MANAGEACCOUNT}
           component={ManageAccountScreen}
+        />
+
+        <Stack.Screen
+          name={ScreenNames.MYFAVIROTES}
+          component={MyFavoritesScreen}
+        />
+
+        <Stack.Screen
+          name={ScreenNames.EDITPROFILE}
+          component={EditProfileScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

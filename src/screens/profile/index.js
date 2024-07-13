@@ -22,12 +22,20 @@ export default function Profile() {
     navigation.navigate(ScreenNames.MYADS);
   };
 
+  const handleFavorites = () => {
+    navigation.navigate(ScreenNames.MYFAVIROTES);
+  };
+
   const handleMyBiddings = () => {
     navigation.navigate(ScreenNames.MYBIDDINGS);
   };
 
   const handleManageAccount = () => {
     navigation.navigate(ScreenNames.MANAGEACCOUNT);
+  };
+
+  const handleEditProfile = () => {
+    navigation.navigate(ScreenNames.EDITPROFILE);
   };
 
   const handleLogOut = () => {
@@ -43,7 +51,7 @@ export default function Profile() {
       <View style={styles.parentView}>
         <Header title="Profile" />
         {/* User Detail */}
-        <View style={styles.imageView}>
+        {/* <View style={styles.imageView}>
           <TouchableOpacity style={styles.imageStyle}>
             <Image
               source={Images.JNPLOGO}
@@ -59,53 +67,67 @@ export default function Profile() {
             btnStyle={styles.profileBtn}
             textStyle={styles.profileText}
           />
-        </View>
+        </View> */}
 
-        <View style={styles.contentView}>
-          {/* Change Password */}
-          <ProfileContent
-            iconName="lock"
-            text="Change Password"
-            // onPress={handleChangePassword}
-          />
+        {/* <View style={styles.contentView}> */}
+        {/* Change Password */}
+        <ProfileContent
+          iconName="lock"
+          text="Change Password"
+          // onPress={handleChangePassword}
+        />
 
-          {/* My Ads */}
-          <ProfileContent
-            iconName="hard-drive"
-            text="My Ads"
-            press={handleMyAds}
-          />
+        {/* My Ads */}
+        <ProfileContent
+          iconName="hard-drive"
+          text="My Ads"
+          press={handleMyAds}
+        />
 
-          {/* My Biddings */}
-          <ProfileContent
-            iconName="hard-drive"
-            text="My Biddings"
-            press={handleMyBiddings}
-          />
+        {/* Favorites */}
+        <ProfileContent
+          iconName="heart"
+          text="My Favorites"
+          press={handleFavorites}
+        />
 
-          {/* Manage Account */}
-          <ProfileContent
-            iconName="lock"
-            text="Manage Account"
-            press={handleManageAccount}
-          />
+        {/* My Biddings */}
+        <ProfileContent
+          iconName="hard-drive"
+          text="My Biddings"
+          press={handleMyBiddings}
+        />
 
-          {/* Contact Us */}
-          <ProfileContent
-            iconName="mail"
-            text="Contact Us"
-            forwardIcon={false}
-            // onPress={handleContactUs}
-          />
+        {/* Manage Account */}
+        <ProfileContent
+          iconName="lock"
+          text="Manage Account"
+          press={handleManageAccount}
+        />
 
-          {/* Log out */}
-          <ProfileContent
-            iconName="log-out"
-            text="Log out"
-            press={handleLogOut}
-            forwardIcon={false}
-          />
-        </View>
+        {/* Manage Account */}
+        <ProfileContent
+          iconName="edit"
+          text="Edit Profile"
+          press={handleEditProfile}
+        />
+
+        {/* Contact Us */}
+        <ProfileContent
+          iconName="mail"
+          text="Contact Us"
+          forwardIcon={false}
+          // onPress={handleContactUs}
+        />
+
+        {/* Log out */}
+        <ProfileContent
+          iconName="log-out"
+          text="Log out"
+          press={handleLogOut}
+          forwardIcon={false}
+        />
+        {/* </View> */}
       </View>
     </ScreenWrapper>
   );

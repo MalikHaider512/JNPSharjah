@@ -9,15 +9,15 @@ import Images from "../../images";
 import { getAds, getMyAds } from "../../api/ads";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMyAds, selectUser, setMyAdsList } from "../../redux/slices/user";
+import { getFavorite } from "../../api/favorites";
+import { selectFavoriteList } from "../../redux/slices/favorites";
 
-export default function MyAds() {
+export default function MyFavirotes() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
-  const myAdList = useSelector(selectMyAds);
-
-  console.log("Redux My Ads List", myAdList);
+  const favoriteList = useSelector(selectFavoriteList);
 
   const flatListRef = useRef(null);
 
@@ -78,10 +78,10 @@ export default function MyAds() {
   const getAllAds = async () => {
     console.log("User Id ", user);
     try {
-      let res = await getMyAds(user?._id);
+      let res = await getFavorite(user?._id);
       console.log("My Ads Response", res);
 
-      setAds(res ? res : []);
+      setAds(res?.items ? res?.items : []);
       // dispatch(setMyAdsList(res));
     } catch (error) {
       console.log("My Ads", error);
@@ -93,14 +93,10 @@ export default function MyAds() {
     getAllAds();
   }, []);
 
-  // useEffect(() => {
-  //   getAllAds();
-  // }, [myAdList]);
-
   useFocusEffect(
     useCallback(() => {
       getAllAds();
-    }, [myAdList])
+    }, [favoriteList])
   );
 
   return (
@@ -115,7 +111,7 @@ export default function MyAds() {
           data={loading ? Array.from({ length: 10 }) : ads}
           scrollEnabled={true} // Ensure scrolling is enabled
           renderItem={({ item, index }) =>
-            loading ? <ShimmerEffect /> : <ListView item={item} myAds={true} />
+            loading ? <ShimmerEffect /> : <ListView item={item} />
           }
           keyExtractor={(item, index) => index}
           numColumns={1}
