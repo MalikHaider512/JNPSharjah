@@ -35,6 +35,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import ScreenNames from "../../routes/routes";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/user";
+import { errorMessage, successMessage } from "../../utils/Methods";
 
 export default function AdPost() {
   const navigation = useNavigation();
@@ -45,6 +46,7 @@ export default function AdPost() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState([]);
   const [title, setTitle] = useState("");
+  const [titleGiven, setTitleGiven] = useState(true);
   const [noOfBoxes, setNoOfBoxes] = useState(0);
   const [itemPerBox, setItemPerBox] = useState(0);
   const [weightPerBox, setWeightPerBox] = useState(0);
@@ -230,6 +232,15 @@ export default function AdPost() {
     closeEndingDatePickerModal();
   };
 
+  const checkEmptyState = (state, setState) => {
+    console.log("Checking State");
+    if (state === "") {
+      setState(false);
+    } else {
+      setState(true);
+    }
+  };
+
   const formatDileveryTo = (dileveryToo) => {
     if (dileveryToo.length === 0) {
       return "";
@@ -359,12 +370,24 @@ export default function AdPost() {
     console.log("Form Data", formdata?.image);
 
     try {
-      let res = await postAd(formdata);
+      if (title) {
+        let res = await postAd(formdata);
 
-      console.log("Ad Response", res);
-      setLoadingModal(false);
+        console.log("Ad Response", res);
 
-      navigation.navigate(ScreenNames.HOME);
+        if (res?.message === "Item Added Successfully") {
+          successMessage("Ad Post", "Ad Posted Successfully");
+          setLoadingModal(false);
+          navigation.navigate(ScreenNames.HOME);
+        } else {
+          setLoadingModal(false);
+          errorMessage("Ad Post", "Error in Ad Post");
+        }
+      } else {
+        setTitleGiven(false);
+        setLoadingModal(false);
+        errorMessage("Ad Post", "Error in Ad Post");
+      }
     } catch (error) {
       console.log("Ad Post", error);
     }
@@ -492,7 +515,15 @@ export default function AdPost() {
               setState={setTitle}
               inputStyles={styles.inputStyle}
               viewStyle={styles.inputView}
+              editingEnd={() => {
+                checkEmptyState(title, setTitleGiven);
+              }}
             />
+
+            {/*Email Error Message */}
+            {!titleGiven && !title && (
+              <Text style={styles.errorText}>Required*</Text>
+            )}
 
             {/* No Of Boxes */}
             <InputText

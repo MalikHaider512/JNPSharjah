@@ -38,9 +38,9 @@ export default function Bidding({ item }) {
   };
 
   const handleBid = async () => {
-    console.log("Amount", bid);
-    console.log("User Id", user?._id);
-    console.log("Item Id", item?._id);
+    // console.log("Amount", bid);
+    // console.log("User Id", user?._id);
+    // console.log("Item Id", item?._id);
 
     // if (bidType === "Solo Bid") {
     //   let res = await postSoloBid(item?._id, user?._id, bid);
@@ -78,35 +78,35 @@ export default function Bidding({ item }) {
   };
 
   const createGroup = async () => {
-    console.log("Creating Group");
-    console.log("Item Id", item?._id);
-    console.log("User Id", user?._id);
+    // console.log("Creating Group");
+    // console.log("Item Id", item?._id);
+    // console.log("User Id", user?._id);
 
     let res = await createBiddingGroup(item?._id, user?._id);
-    console.log("Creating group response", res);
+    // console.log("Creating group response", res);
   };
 
   const joinGroup = async () => {
-    console.log("Creating Group");
-    console.log("Item Id", item?._id);
-    console.log("User Id", user?._id);
+    // console.log("Creating Group");
+    // console.log("Item Id", item?._id);
+    // console.log("User Id", user?._id);
 
     let res = await joinBiddingGroup(
       "66656fb41af14b3d87c2cf03",
       user?._id,
       "ek9a2ornh6t"
     );
-    console.log("Creating group response", res);
+    // console.log("Creating group response", res);
   };
 
   const getrGoupBidData = async () => {
     let res = await getGroupBids(item?._id);
-    console.log("Group Bidding Data", res);
+    // console.log("Group Bidding Data", res);
   };
 
   useEffect(() => {
     if (bidType === "Solo Bid") {
-      console.log("Solo Bidding");
+      // console.log("Solo Bidding");
     } else {
       getrGoupBidData();
     }

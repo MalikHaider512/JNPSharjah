@@ -32,6 +32,7 @@ import {
   toCalendarDate,
 } from "@internationalized/date";
 import Images from "../../images";
+import { format } from "date-fns";
 
 export default function Details() {
   const route = useRoute();
@@ -44,8 +45,9 @@ export default function Details() {
   const [imageModal, setImageModal] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(0);
   const [seeMore, setSeeMore] = useState(false);
+  const [endDate, setEndDate] = useState("");
 
-  console.log("Item", route.params.item);
+  // console.log("Item", route.params.item);
 
   const openImageModal = (index) => {
     setPreviewIndex(index ? index : 0);
@@ -61,55 +63,62 @@ export default function Details() {
   };
 
   const formatDates = () => {
+    // let parsedBidDuration;
+    // try {
+    //   parsedBidDuration = JSON.parse(route.params.item?.bidDuration);
+    // } catch (error) {
+    //   console.error("Error parsing bidDuration JSON:", error);
+    // }
+
+    // // Parse the end date from the bidDuration object
+    // if (parsedBidDuration && parsedBidDuration.end) {
+    //   const { end } = parsedBidDuration;
+    //   if (end.year && end.month && end.day) {
+    //     console.log("End Date", new Date(end.year, end.month - 1, end.day)); // month is zero-indexed in JavaScript Date
+    //   }
+    // }
     const bidDuration = route.params.item?.bidDuration;
 
-    console.log("Original bidDuration JSON string:", bidDuration);
+    // console.log("Original bidDuration JSON string:", bidDuration);
 
     // Parse the JSON string
     const bidDurationObj = JSON.parse(bidDuration);
 
     // Log the parsed object
-    console.log("Parsed bidDuration object:", bidDurationObj);
+    // console.log("Parsed bidDuration object:", bidDurationObj);
 
     // Extract start and end dates
     const startDateInfo = bidDurationObj.start;
     const endDateInfo = bidDurationObj.end;
 
     // Log start and end date info
-    console.log("Start Date Info:", startDateInfo);
-    console.log("End Date Info:", endDateInfo);
+    // console.log("Start Date Info:", startDateInfo);
+    // console.log("End Date Info:", endDateInfo);
 
     const startDate = new Date(
       startDateInfo.year,
       startDateInfo.month - 1,
       startDateInfo.day
     );
-    const endDate = new Date(
+    const endfDate = new Date(
       endDateInfo.year,
       endDateInfo.month - 1,
       endDateInfo.day
     );
 
     // Log the formatted dates
-    console.log("Formatted Start Date:", startDate.toUTCString());
-    console.log("Formatted End Date:", endDate.toUTCString());
 
-    // Adjust for potential time zone issues
-    const correctedStartDate = new Date(
-      startDate.getTime() + startDate.getTimezoneOffset() * 60000
-    );
-    const correctedEndDate = new Date(
-      endDate.getTime() + endDate.getTimezoneOffset() * 60000
-    );
-
-    // Log the formatted dates
-    console.log("Formatted Start Date:", correctedStartDate);
-    console.log("Formatted End Date:", correctedEndDate);
+    setEndDate(format(new Date(endfDate), "yyyy-MM-dd"));
   };
 
   useEffect(() => {
     formatDates();
   }, []);
+
+  // useEffect(() => {
+  //   console.log("State ENd Date", endDate);
+  // }, [endDate]);
+
   return (
     <ScreenWrapper statusBarColor={AppColors.primary} barStyle="dark-content">
       <View style={styles.parentView}>
@@ -160,16 +169,18 @@ export default function Details() {
           </Text>
 
           {/* ItemDetails */}
-          <View style={styles.detailView}>
-            <Text style={styles.detailText}>Details</Text>
-            <ItemDetails details={item?.details} />
-          </View>
+          {item?.details && (
+            <View style={styles.detailView}>
+              <Text style={styles.detailText}>Details</Text>
+              <ItemDetails details={item?.details} />
+            </View>
+          )}
 
           {/* Biding */}
           <View style={styles.detailView}>
             <Text style={styles.detailText}>Biding</Text>
 
-            <Timer date={"2024-11-31"} />
+            <Timer date={endDate} />
 
             {/* Current Bid */}
             {/* {item.details && item.details?.sellerFrom && ( */}

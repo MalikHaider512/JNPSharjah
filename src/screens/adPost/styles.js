@@ -29,5 +29,9 @@ const styles = StyleSheet.create({
   modalStyle: {
     height: height(70),
   },
+  errorText: {
+    color: AppColors.red,
+    marginStart: width(5),
+  },
 });
 export default styles;

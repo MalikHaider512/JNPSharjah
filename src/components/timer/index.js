@@ -49,7 +49,7 @@ export default function Timer({ date, viewStyle }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [date]);
 
   return (
     <View style={{ ...styles.counterView, ...viewStyle }}>

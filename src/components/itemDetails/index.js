@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./styles";
 
 export default function ItemDetails({ category, subCategory, details }) {
-  console.log("Details", details);
+  // console.log("Details", details);
 
   return (
     <View>

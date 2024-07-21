@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import Images from "../../images";
 import { subString } from "../../utils/Methods";
@@ -12,6 +12,7 @@ import MoreMenu from "../moreMenu";
 import Favorite from "../favorite";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/user";
+import { format } from "date-fns";
 
 export default function ListView({ item, myAds = false }) {
   const navigation = useNavigation();
@@ -19,6 +20,7 @@ export default function ListView({ item, myAds = false }) {
   const user = useSelector(selectUser);
 
   const [extend, setExtend] = useState(false);
+  const [endDate, setEndDate] = useState("");
 
   const handleExtend = () => {
     const newExtend = !extend;
@@ -28,6 +30,68 @@ export default function ListView({ item, myAds = false }) {
   const handleDetails = () => {
     navigation.navigate(ScreenNames.DETAILS, { item: item });
   };
+
+  const formatDates = () => {
+    // let parsedBidDuration;
+    // try {
+    //   parsedBidDuration = JSON.parse(route.params.item?.bidDuration);
+    // } catch (error) {
+    //   console.error("Error parsing bidDuration JSON:", error);
+    // }
+
+    // // Parse the end date from the bidDuration object
+    // if (parsedBidDuration && parsedBidDuration.end) {
+    //   const { end } = parsedBidDuration;
+    //   if (end.year && end.month && end.day) {
+    //     console.log("End Date", new Date(end.year, end.month - 1, end.day)); // month is zero-indexed in JavaScript Date
+    //   }
+    // }
+    const bidDuration = item?.bidDuration;
+
+    // console.log("Original bidDuration JSON string:", bidDuration);
+
+    // Parse the JSON string
+    const bidDurationObj = JSON.parse(bidDuration);
+
+    // Log the parsed object
+    // console.log("Parsed bidDuration object:", bidDurationObj);
+
+    // Extract start and end dates
+    const startDateInfo = bidDurationObj.start;
+    const endDateInfo = bidDurationObj.end;
+
+    // Log start and end date info
+    // console.log("Start Date Info:", startDateInfo);
+    // console.log("End Date Info:", endDateInfo);
+
+    const startDate = new Date(
+      startDateInfo.year,
+      startDateInfo.month - 1,
+      startDateInfo.day
+    );
+    const endfDate = new Date(
+      endDateInfo.year,
+      endDateInfo.month - 1,
+      endDateInfo.day
+    );
+
+    // Log the formatted dates
+    console.log("Formatted Start Date:", startDate);
+    console.log(
+      "Formatted End Date:",
+      format(new Date(endfDate), "yyyy-MM-dd")
+    );
+
+    console.log("Setting Date");
+
+    setEndDate(format(new Date(endfDate), "yyyy-MM-dd"));
+
+    console.log("Date Set");
+  };
+
+  useEffect(() => {
+    formatDates();
+  }, [item]);
 
   return (
     <TouchableOpacity style={styles.parentView} onPress={handleDetails}>
@@ -72,7 +136,7 @@ export default function ListView({ item, myAds = false }) {
 
           {/* Remaining Time */}
           <View style={styles.counterView}>
-            <Timer date={"2024-11-31"} />
+            <Timer date={endDate} />
             {/* <Text style={styles.labelText}>{item.bidDuration?.start}</Text> */}
             {/* <Text style={styles.valueText}>
             {timeLeft.months} M {timeLeft.days} D {timeLeft.hours} H{" "}
